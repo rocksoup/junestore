@@ -1,0 +1,11 @@
+{
+  "allowedTools": [
+    "Read",
+    "Write",
+    "Edit",
+    "Glob",
+    "Grep",
+    "Bash(git:*)",
+    "Bash(shopify:*)"
+  ]
+}
