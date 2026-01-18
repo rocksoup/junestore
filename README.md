@@ -1,4 +1,25 @@
-# Dawn
+# June Lingerie Shopify Theme
+
+Custom Shopify theme for June Lingerie, built on Dawn theme foundation.
+
+## Quick Start - Development Server
+
+To start the local development server with hot reload:
+
+```bash
+shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
+```
+
+This will start the server at http://127.0.0.1:9292 with live reloading for CSS and sections.
+
+## Project Documentation
+
+- **Development Plan**: See [docs/PLAN.md](docs/PLAN.md) for the complete development roadmap
+- **Issue Tracking**: We use beads for issue tracking. Run `bd list` to see all issues and epics
+
+---
+
+# About Dawn Theme
 
 [![Build status](https://github.com/shopify/dawn/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Shopify/dawn/actions/workflows/ci.yml?query=branch%3Amain)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?color=informational)](/.github/CONTRIBUTING.md)
