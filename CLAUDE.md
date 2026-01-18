@@ -301,6 +301,47 @@ bd ready                   # Show ready-to-work tasks
 bd show <id>               # View issue details
 ```
 
+## 🔌 MCP Server Management
+
+**Default State:** Shopify MCP server is **disabled by default** to conserve token usage (~3,000-5,000 tokens per message).
+
+**When to Enable:**
+Claude should suggest enabling the Shopify MCP server when working on:
+- Creating or modifying Liquid files (sections, snippets, templates)
+- Writing Shopify-specific GraphQL queries
+- Validating theme code against Shopify standards
+- Looking up Shopify API documentation
+- Using Shopify component patterns
+
+**When to Keep Disabled:**
+- General project work (git, planning, documentation)
+- Non-Shopify code (plain HTML/CSS/JS)
+- Issue tracking and project management
+- Debugging non-Shopify-specific problems
+
+**Toggle Commands:**
+```bash
+# Check current status
+claude mcp list
+
+# Enable Shopify MCP server
+claude mcp add shopify-dev-mcp "npx -y @shopify/dev-mcp@latest"
+
+# Disable Shopify MCP server
+claude mcp remove shopify-dev-mcp
+```
+
+**Token Impact:**
+- With server enabled: ~3,000-5,000 additional tokens per message
+- Adds 10 tool definitions to every conversation turn
+- Can significantly impact usage limits during extended sessions
+
+**Workflow:**
+1. Start session with server disabled (default)
+2. When Shopify-specific work begins, Claude suggests enabling it
+3. Enable server for that work session
+4. Disable when done with Shopify-specific tasks
+
 ## 🏗️ Project Architecture
 
 **Tech Stack:** Shopify Liquid Theme (based on Dawn) • HTML • CSS • JavaScript • Liquid
