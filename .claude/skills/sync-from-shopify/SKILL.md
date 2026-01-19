@@ -1,3 +1,8 @@
+---
+name: sync-from-shopify
+description: Synchronize Shopify theme changes to git. Pull configuration and template changes from Shopify admin, commit them to git, and push to remote. Use when you need to pull theme updates from the Shopify admin editor or sync recent admin changes.
+---
+
 # Sync from Shopify
 
 Pull theme changes from Shopify admin, commit them to git, and push to remote.
