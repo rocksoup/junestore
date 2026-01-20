@@ -684,14 +684,32 @@ customElements.define('bulk-modal', BulkModal);
 class ModalOpener extends HTMLElement {
   constructor() {
     super();
+    this.onClick = this.onClick.bind(this);
+  }
+
+  connectedCallback() {
+    if (this.initialized) return;
+    this.initialized = true;
 
     const button = this.querySelector('button');
+    if (button) {
+      button.addEventListener('click', this.onClick);
+    } else {
+      this.addEventListener('click', this.onClick);
+    }
+  }
 
-    if (!button) return;
-    button.addEventListener('click', () => {
-      const modal = document.querySelector(this.getAttribute('data-modal'));
-      if (modal) modal.show(button);
-    });
+  onClick(event) {
+    const modal = document.querySelector(this.getAttribute('data-modal'));
+    if (!modal) return;
+
+    const opener =
+      this.querySelector('[data-media-id]') ||
+      event.target.closest('[data-media-id]') ||
+      event.target.closest('button') ||
+      this.querySelector('button') ||
+      this;
+    modal.show(opener);
   }
 }
 customElements.define('modal-opener', ModalOpener);
