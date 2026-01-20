@@ -684,6 +684,10 @@
                 {% render 'icon-with-text', block: block %}
             {%- endcase -%}
           {%- endfor -%}
+
+          {%- comment -%} Display custom product metafields (fabric, care, fit info) {%- endcomment -%}
+          {% render 'product-metafields', product: product, section_id: section.id %}
+
           <a href="{{ product.url }}" class="link product__view-details animate-arrow">
             {{ 'products.product.view_full_details' | t }}
             {{- 'icon-arrow.svg' | inline_asset_content -}}
