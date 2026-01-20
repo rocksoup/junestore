@@ -808,6 +808,7 @@ class SliderComponent extends HTMLElement {
   }
 
   isSlideVisible(element, offset = 0) {
+    if (!this.slider || !element) return true;
     const lastVisibleSlide = this.slider.clientWidth + this.slider.scrollLeft - offset;
     return element.offsetLeft + element.clientWidth <= lastVisibleSlide && element.offsetLeft >= this.slider.scrollLeft;
   }
