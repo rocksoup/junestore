@@ -1,0 +1,114 @@
+{% comment %}
+  ABOUTME: Renders a link/button to open the size chart modal.
+  ABOUTME: Can be placed near size selectors or anywhere on product pages.
+
+  Accepts:
+  - section_id: {String} The section ID of the size chart modal to open
+  - text: {String} The link text (optional, defaults to "Size Guide")
+  - style: {String} The link style - "link" (default), "button", or "icon"
+  - icon: {String} Optional icon to show with link
+
+  Usage:
+  {% render 'size-chart-link', section_id: section.id, text: 'View Size Guide', style: 'link' %}
+{% endcomment %}
+
+{%- liquid
+  assign link_text = text | default: 'size_chart.heading' | t
+  assign link_style = style | default: 'link'
+  assign modal_id = 'SizeChartModal-' | append: section_id
+-%}
+
+{%- if link_style == 'button' -%}
+  <button
+    type="button"
+    class="size-chart-trigger size-chart-trigger--button button button--secondary"
+    data-modal-id="{{ modal_id }}"
+  >
+    {%- if icon -%}
+      {{ icon | inline_asset_content }}
+    {%- endif -%}
+    {{ link_text }}
+  </button>
+{%- elsif link_style == 'icon' -%}
+  <button
+    type="button"
+    class="size-chart-trigger size-chart-trigger--icon"
+    data-modal-id="{{ modal_id }}"
+    aria-label="{{ link_text }}"
+  >
+    {%- if icon -%}
+      {{ icon | inline_asset_content }}
+    {%- else -%}
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 3h14M3 3v14M3 3l14 14M17 3v14M17 17H3M17 17L3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    {%- endif -%}
+  </button>
+{%- else -%}
+  <a
+    href="#"
+    class="size-chart-trigger size-chart-trigger--link link link--text"
+    data-modal-id="{{ modal_id }}"
+  >
+    {%- if icon -%}
+      {{ icon | inline_asset_content }}
+    {%- endif -%}
+    {{ link_text }}
+  </a>
+{%- endif -%}
+
+{% stylesheet %}
+  .size-chart-trigger {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .size-chart-trigger--link {
+    font-size: 0.875rem;
+    text-decoration: underline;
+    color: rgba(var(--color-foreground), 0.75);
+    transition: color 0.2s ease;
+  }
+
+  .size-chart-trigger--link:hover {
+    color: rgba(var(--color-foreground), 1);
+  }
+
+  .size-chart-trigger--icon {
+    background: transparent;
+    border: none;
+    padding: 0.25rem;
+    color: rgba(var(--color-foreground), 0.75);
+    transition: color 0.2s ease;
+  }
+
+  .size-chart-trigger--icon:hover {
+    color: rgba(var(--color-foreground), 1);
+  }
+
+  .size-chart-trigger--icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .size-chart-trigger--button {
+    margin-top: 1rem;
+  }
+{% endstylesheet %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.size-chart-trigger').forEach(trigger => {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        const modalId = this.dataset.modalId;
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.show(this);
+        }
+      });
+    });
+  });
+</script>

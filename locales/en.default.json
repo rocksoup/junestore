@@ -527,5 +527,37 @@
       "send_on": "YYYY-MM-DD",
       "send_on_label": "Send on (optional)"
     }
+  },
+  "size_chart": {
+    "heading": "Size Guide",
+    "imperial": "Inches",
+    "metric": "Centimeters",
+    "bra_sizing": "Bra Sizing Guide",
+    "panty_sizing": "Panty Sizing Guide",
+    "band_size": "Band Size",
+    "under_bust": "Under Bust",
+    "cup_sizes": "Cup Sizes",
+    "see_cup_chart": "See cup chart below",
+    "cup_size_guide": "Cup Size International Conversions",
+    "cup": "Cup",
+    "us": "US",
+    "uk": "UK",
+    "eu": "EU",
+    "au": "AU",
+    "size": "Size",
+    "us_size": "US Size",
+    "waist": "Waist",
+    "hips": "Hips",
+    "international_conversions": "International Size Conversions",
+    "how_to_measure_bra": "How to Measure for Bras",
+    "bra_step_1": "Measure your underbust: Wrap the tape measure around your ribcage, directly under your bust. Make sure it's snug but not tight.",
+    "bra_step_2": "Measure your bust: Wrap the tape measure around the fullest part of your bust, keeping the tape level.",
+    "bra_step_3": "Calculate your cup size: Subtract your underbust measurement from your bust measurement. Each inch difference equals one cup size (1\"=A, 2\"=B, 3\"=C, etc.).",
+    "how_to_measure_panty": "How to Measure for Panties",
+    "panty_step_1": "Measure your waist: Measure around the narrowest part of your natural waistline.",
+    "panty_step_2": "Measure your hips: Measure around the fullest part of your hips and bottom, keeping the tape parallel to the floor.",
+    "panty_step_3": "Use your measurements to find your size in the chart above. If you're between sizes, we recommend sizing up for comfort.",
+    "note": "Note",
+    "note_text": "All measurements are approximate. If you're between sizes, we recommend ordering both sizes to find your perfect fit. Need help? Contact our customer service team for personalized sizing assistance."
   }
 }

@@ -477,6 +477,14 @@
 
               {%- when 'variant_picker' -%}
                 {% render 'product-variant-picker', product: product, block: block, product_form_id: product_form_id %}
+              {%- when 'size_chart_link' -%}
+                <div class="product__size-chart-link" {{ block.shopify_attributes }}>
+                  {% render 'size-chart-link',
+                    section_id: block.settings.size_chart_section_id,
+                    text: block.settings.link_text,
+                    style: block.settings.link_style
+                  %}
+                </div>
               {%- when 'buy_buttons' -%}
                 {%- render 'buy-buttons',
                   block: block,
@@ -904,6 +912,46 @@
             }
           ],
           "default": "circle"
+        }
+      ]
+    },
+    {
+      "type": "size_chart_link",
+      "name": "Size Chart Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Link Text",
+          "default": "Size Guide",
+          "info": "Text to display for the size chart link"
+        },
+        {
+          "type": "select",
+          "id": "link_style",
+          "label": "Link Style",
+          "options": [
+            {
+              "value": "link",
+              "label": "Text Link"
+            },
+            {
+              "value": "button",
+              "label": "Button"
+            },
+            {
+              "value": "icon",
+              "label": "Icon Only"
+            }
+          ],
+          "default": "link"
+        },
+        {
+          "type": "text",
+          "id": "size_chart_section_id",
+          "label": "Size Chart Modal Section ID",
+          "default": "size-chart-modal",
+          "info": "Enter the section ID of the Size Chart Modal section (check in theme editor)"
         }
       ]
     },

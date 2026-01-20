@@ -1,0 +1,303 @@
+{% comment %}
+  ABOUTME: Renders a size chart modal that can be triggered from product pages.
+  ABOUTME: Displays comprehensive sizing information for lingerie products (bras, panties, sets).
+{% endcomment %}
+
+<modal-dialog id="SizeChartModal-{{ section.id }}" class="size-chart-modal">
+  <div
+    role="dialog"
+    aria-labelledby="SizeChartModalHeading-{{ section.id }}"
+    aria-modal="true"
+    class="size-chart-modal__content"
+    tabindex="-1"
+  >
+    <button
+      id="ModalClose-{{ section.id }}"
+      type="button"
+      class="size-chart-modal__toggle"
+      aria-label="{{ 'accessibility.close' | t }}"
+    >
+      {{ 'icon-close.svg' | inline_asset_content }}
+    </button>
+
+    <div class="size-chart-modal__content-info">
+      <h2 id="SizeChartModalHeading-{{ section.id }}" class="size-chart-modal__heading">
+        {{ section.settings.heading | default: 'size_chart.heading' | t }}
+      </h2>
+
+      <size-chart>
+        {% render 'size-chart',
+          product: product,
+          show_units_toggle: section.settings.show_units_toggle
+        %}
+      </size-chart>
+    </div>
+  </div>
+</modal-dialog>
+
+{% stylesheet %}
+  .size-chart-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .size-chart-modal[open] {
+    display: flex;
+  }
+
+  .size-chart-modal__content {
+    position: relative;
+    background: rgb(var(--color-background));
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: 2rem;
+    padding: 2rem;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .size-chart-modal__toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .size-chart-modal__toggle svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: currentColor;
+  }
+
+  .size-chart-modal__toggle:hover {
+    opacity: 0.7;
+  }
+
+  .size-chart-modal__heading {
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    padding-right: 2rem;
+  }
+
+  .size-chart-modal__content-info {
+    padding-top: 0.5rem;
+  }
+
+  @media screen and (max-width: 749px) {
+    .size-chart-modal__content {
+      margin: 1rem;
+      padding: 1.5rem;
+      max-height: 95vh;
+    }
+
+    .size-chart-modal__heading {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  if (!customElements.get('modal-dialog')) {
+    customElements.define('modal-dialog', class ModalDialog extends HTMLElement {
+      constructor() {
+        super();
+        this.querySelector('[id^="ModalClose-"]').addEventListener(
+          'click',
+          this.hide.bind(this, false)
+        );
+        this.addEventListener('keyup', (event) => {
+          if (event.code.toUpperCase() === 'ESCAPE') this.hide();
+        });
+        if (this.classList.contains('media-modal')) {
+          this.addEventListener('pointerup', (event) => {
+            if (event.target.nodeName === 'PRODUCT-MODEL') return;
+            if (event.target === this) this.hide();
+          });
+        } else {
+          this.addEventListener('click', (event) => {
+            if (event.target === this) this.hide();
+          });
+        }
+      }
+
+      connectedCallback() {
+        if (this.moved) return;
+        this.moved = true;
+        document.body.appendChild(this);
+      }
+
+      show(opener) {
+        this.openedBy = opener;
+        const popup = this.querySelector('.size-chart-modal__content');
+        document.body.classList.add('overflow-hidden');
+        this.setAttribute('open', '');
+        if (popup) popup.scrollTop = 0;
+        trapFocus(this, this.querySelector('[role="dialog"]'));
+        window.pauseAllMedia();
+      }
+
+      hide() {
+        document.body.classList.remove('overflow-hidden');
+        document.body.dispatchEvent(new CustomEvent('modalClosed'));
+        this.removeAttribute('open');
+        removeTrapFocus(this.openedBy);
+        window.pauseAllMedia();
+      }
+    });
+  }
+
+  function getFocusableElements(container) {
+    return Array.from(
+      container.querySelectorAll(
+        "summary, a[href], button:enabled, [tabindex]:not([tabindex^='-']), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object, iframe"
+      )
+    );
+  }
+
+  document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
+    summary.setAttribute('role', 'button');
+    summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));
+
+    if(summary.nextElementSibling.getAttribute('id')) {
+      summary.setAttribute('aria-controls', summary.nextElementSibling.id);
+    }
+
+    summary.addEventListener('click', (event) => {
+      event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
+    });
+
+    if (summary.closest('header-drawer')) return;
+    summary.parentElement.addEventListener('keyup', onKeyUpEscape);
+  });
+
+  const trapFocusHandlers = {};
+
+  function trapFocus(container, elementToFocus = container) {
+    var elements = getFocusableElements(container);
+    var first = elements[0];
+    var last = elements[elements.length - 1];
+
+    removeTrapFocus();
+
+    trapFocusHandlers.focusin = (event) => {
+      if (
+        event.target !== container &&
+        event.target !== last &&
+        event.target !== first
+      )
+        return;
+
+      document.addEventListener('keydown', trapFocusHandlers.keydown);
+    };
+
+    trapFocusHandlers.focusout = function() {
+      document.removeEventListener('keydown', trapFocusHandlers.keydown);
+    };
+
+    trapFocusHandlers.keydown = function(event) {
+      if (event.code.toUpperCase() !== 'TAB') return;
+
+      if (event.target === last && !event.shiftKey) {
+        event.preventDefault();
+        first.focus();
+      }
+
+      if (
+        (event.target === container || event.target === first) &&
+        event.shiftKey
+      ) {
+        event.preventDefault();
+        last.focus();
+      }
+    };
+
+    document.addEventListener('focusout', trapFocusHandlers.focusout);
+    document.addEventListener('focusin', trapFocusHandlers.focusin);
+
+    elementToFocus.focus();
+
+    if (elementToFocus.tagName === 'INPUT' &&
+        ['search', 'text', 'email', 'url'].includes(elementToFocus.type) &&
+        elementToFocus.value) {
+      elementToFocus.setSelectionRange(0, elementToFocus.value.length);
+    }
+  }
+
+  function removeTrapFocus(elementToFocus = null) {
+    document.removeEventListener('focusin', trapFocusHandlers.focusin);
+    document.removeEventListener('focusout', trapFocusHandlers.focusout);
+    document.removeEventListener('keydown', trapFocusHandlers.keydown);
+
+    if (elementToFocus) elementToFocus.focus();
+  }
+
+  function onKeyUpEscape(event) {
+    if (event.code.toUpperCase() !== 'ESCAPE') return;
+
+    const openDetailsElement = event.target.closest('details[open]');
+    if (!openDetailsElement) return;
+
+    const summaryElement = openDetailsElement.querySelector('summary');
+    openDetailsElement.removeAttribute('open');
+    summaryElement.setAttribute('aria-expanded', false);
+    summaryElement.focus();
+  }
+
+  window.pauseAllMedia = function() {
+    document.querySelectorAll('.js-youtube').forEach((video) => {
+      video.contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+    });
+    document.querySelectorAll('.js-vimeo').forEach((video) => {
+      video.contentWindow.postMessage('{"method":"pause"}', '*');
+    });
+    document.querySelectorAll('video').forEach((video) => video.pause());
+    document.querySelectorAll('product-model').forEach((model) => {
+      if (model.modelViewerUI) model.modelViewerUI.pause();
+    });
+  };
+</script>
+
+{% schema %}
+{
+  "name": "Size Chart Modal",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Size Guide"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_units_toggle",
+      "label": "Show units toggle (inches/cm)",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Size Chart Modal"
+    }
+  ]
+}
+{% endschema %}

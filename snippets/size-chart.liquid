@@ -1,0 +1,528 @@
+{% comment %}
+  ABOUTME: Renders size charts for lingerie products (bras, panties, sets) with international size conversions.
+  ABOUTME: Supports multiple product types via product tags and displays measurement tables in collapsible format.
+
+  Accepts:
+  - product: {Object} product object to determine which size chart to show
+  - heading: {String} optional heading text (defaults to "Size Guide")
+  - icon: {String} optional icon type (ruler, shirt, etc.)
+  - show_units_toggle: {Boolean} whether to show imperial/metric toggle (default: true)
+
+  Usage:
+  {% render 'size-chart', product: product, heading: 'Size Guide', icon: 'ruler' %}
+{% endcomment %}
+
+{%- liquid
+  assign show_toggle = show_units_toggle | default: true
+
+  # Determine product type from tags
+  assign is_bra = false
+  assign is_panty = false
+  assign is_set = false
+
+  for tag in product.tags
+    assign tag_lower = tag | downcase
+    if tag_lower contains 'bra' or tag_lower contains 'bralette'
+      assign is_bra = true
+    elsif tag_lower contains 'panty' or tag_lower contains 'panties' or tag_lower contains 'underwear' or tag_lower contains 'brief'
+      assign is_panty = true
+    elsif tag_lower contains 'set' or tag_lower contains 'lingerie set'
+      assign is_set = true
+    endif
+  endfor
+-%}
+
+<div class="size-chart-wrapper">
+  {%- if show_toggle -%}
+    <div class="size-chart-toggle">
+      <button type="button" class="size-chart-unit-toggle" data-unit="imperial" aria-pressed="true">
+        {{ 'size_chart.imperial' | t }}
+      </button>
+      <button type="button" class="size-chart-unit-toggle" data-unit="metric" aria-pressed="false">
+        {{ 'size_chart.metric' | t }}
+      </button>
+    </div>
+  {%- endif -%}
+
+  {%- if is_bra or is_set -%}
+    <div class="size-chart-section">
+      <h3 class="size-chart-title">{{ 'size_chart.bra_sizing' | t }}</h3>
+
+      <div class="size-chart-table" data-unit-type="imperial">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'size_chart.band_size' | t }}</th>
+              <th>{{ 'size_chart.under_bust' | t }}</th>
+              <th>{{ 'size_chart.cup_sizes' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>30</td>
+              <td>26-27"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>32</td>
+              <td>28-29"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>34</td>
+              <td>30-31"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>36</td>
+              <td>32-33"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>38</td>
+              <td>34-35"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>40</td>
+              <td>36-37"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>42</td>
+              <td>38-39"</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="size-chart-table" data-unit-type="metric" style="display: none;">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'size_chart.band_size' | t }}</th>
+              <th>{{ 'size_chart.under_bust' | t }}</th>
+              <th>{{ 'size_chart.cup_sizes' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>65</td>
+              <td>63-67 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>70</td>
+              <td>68-72 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>75</td>
+              <td>73-77 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>80</td>
+              <td>78-82 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>85</td>
+              <td>83-87 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>90</td>
+              <td>88-92 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+            <tr>
+              <td>95</td>
+              <td>93-97 cm</td>
+              <td>{{ 'size_chart.see_cup_chart' | t }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="size-chart-table size-chart-cup-sizes">
+        <h4>{{ 'size_chart.cup_size_guide' | t }}</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'size_chart.cup' | t }}</th>
+              <th>{{ 'size_chart.us' | t }}</th>
+              <th>{{ 'size_chart.uk' | t }}</th>
+              <th>{{ 'size_chart.eu' | t }}</th>
+              <th>{{ 'size_chart.au' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>A</td>
+              <td>A</td>
+              <td>A</td>
+              <td>A</td>
+              <td>A</td>
+            </tr>
+            <tr>
+              <td>B</td>
+              <td>B</td>
+              <td>B</td>
+              <td>B</td>
+              <td>B</td>
+            </tr>
+            <tr>
+              <td>C</td>
+              <td>C</td>
+              <td>C</td>
+              <td>C</td>
+              <td>C</td>
+            </tr>
+            <tr>
+              <td>D</td>
+              <td>D</td>
+              <td>D</td>
+              <td>D</td>
+              <td>D</td>
+            </tr>
+            <tr>
+              <td>DD/E</td>
+              <td>DD</td>
+              <td>DD</td>
+              <td>E</td>
+              <td>DD</td>
+            </tr>
+            <tr>
+              <td>DDD/F</td>
+              <td>DDD/F</td>
+              <td>E</td>
+              <td>F</td>
+              <td>E</td>
+            </tr>
+            <tr>
+              <td>G</td>
+              <td>G</td>
+              <td>F</td>
+              <td>G</td>
+              <td>F</td>
+            </tr>
+            <tr>
+              <td>H</td>
+              <td>H</td>
+              <td>FF</td>
+              <td>H</td>
+              <td>FF</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="size-chart-how-to">
+        <h4>{{ 'size_chart.how_to_measure_bra' | t }}</h4>
+        <ol>
+          <li>{{ 'size_chart.bra_step_1' | t }}</li>
+          <li>{{ 'size_chart.bra_step_2' | t }}</li>
+          <li>{{ 'size_chart.bra_step_3' | t }}</li>
+        </ol>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if is_panty or is_set -%}
+    <div class="size-chart-section">
+      <h3 class="size-chart-title">{{ 'size_chart.panty_sizing' | t }}</h3>
+
+      <div class="size-chart-table" data-unit-type="imperial">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'size_chart.size' | t }}</th>
+              <th>{{ 'size_chart.us_size' | t }}</th>
+              <th>{{ 'size_chart.waist' | t }}</th>
+              <th>{{ 'size_chart.hips' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>0-2</td>
+              <td>23-25"</td>
+              <td>33-35"</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>4-6</td>
+              <td>26-28"</td>
+              <td>36-38"</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>8-10</td>
+              <td>29-31"</td>
+              <td>39-41"</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>12-14</td>
+              <td>32-34"</td>
+              <td>42-44"</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>16-18</td>
+              <td>35-37"</td>
+              <td>45-47"</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="size-chart-table" data-unit-type="metric" style="display: none;">
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'size_chart.size' | t }}</th>
+              <th>{{ 'size_chart.us_size' | t }}</th>
+              <th>{{ 'size_chart.waist' | t }}</th>
+              <th>{{ 'size_chart.hips' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS</td>
+              <td>0-2</td>
+              <td>58-64 cm</td>
+              <td>84-89 cm</td>
+            </tr>
+            <tr>
+              <td>S</td>
+              <td>4-6</td>
+              <td>66-71 cm</td>
+              <td>91-97 cm</td>
+            </tr>
+            <tr>
+              <td>M</td>
+              <td>8-10</td>
+              <td>74-79 cm</td>
+              <td>99-104 cm</td>
+            </tr>
+            <tr>
+              <td>L</td>
+              <td>12-14</td>
+              <td>81-86 cm</td>
+              <td>107-112 cm</td>
+            </tr>
+            <tr>
+              <td>XL</td>
+              <td>16-18</td>
+              <td>89-94 cm</td>
+              <td>114-119 cm</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="size-chart-international">
+        <h4>{{ 'size_chart.international_conversions' | t }}</h4>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'size_chart.us' | t }}</th>
+              <th>{{ 'size_chart.uk' | t }}</th>
+              <th>{{ 'size_chart.eu' | t }}</th>
+              <th>{{ 'size_chart.au' | t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>XS (0-2)</td>
+              <td>4-6</td>
+              <td>32-34</td>
+              <td>4-6</td>
+            </tr>
+            <tr>
+              <td>S (4-6)</td>
+              <td>8-10</td>
+              <td>36-38</td>
+              <td>8-10</td>
+            </tr>
+            <tr>
+              <td>M (8-10)</td>
+              <td>12-14</td>
+              <td>40-42</td>
+              <td>12-14</td>
+            </tr>
+            <tr>
+              <td>L (12-14)</td>
+              <td>16-18</td>
+              <td>44-46</td>
+              <td>16-18</td>
+            </tr>
+            <tr>
+              <td>XL (16-18)</td>
+              <td>20-22</td>
+              <td>48-50</td>
+              <td>20-22</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="size-chart-how-to">
+        <h4>{{ 'size_chart.how_to_measure_panty' | t }}</h4>
+        <ol>
+          <li>{{ 'size_chart.panty_step_1' | t }}</li>
+          <li>{{ 'size_chart.panty_step_2' | t }}</li>
+          <li>{{ 'size_chart.panty_step_3' | t }}</li>
+        </ol>
+      </div>
+    </div>
+  {%- endif -%}
+
+  <div class="size-chart-note">
+    <p><strong>{{ 'size_chart.note' | t }}:</strong> {{ 'size_chart.note_text' | t }}</p>
+  </div>
+</div>
+
+{% stylesheet %}
+  .size-chart-wrapper {
+    margin: 2rem 0;
+  }
+
+  .size-chart-toggle {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+  }
+
+  .size-chart-unit-toggle {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(var(--color-foreground), 0.2);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.875rem;
+  }
+
+  .size-chart-unit-toggle[aria-pressed="true"] {
+    background: rgba(var(--color-foreground), 1);
+    color: rgba(var(--color-background), 1);
+    border-color: rgba(var(--color-foreground), 1);
+  }
+
+  .size-chart-section {
+    margin-bottom: 2rem;
+  }
+
+  .size-chart-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+
+  .size-chart-table {
+    margin-bottom: 1.5rem;
+  }
+
+  .size-chart-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .size-chart-table th,
+  .size-chart-table td {
+    padding: 0.75rem;
+    text-align: left;
+    border: 1px solid rgba(var(--color-foreground), 0.1);
+  }
+
+  .size-chart-table th {
+    background: rgba(var(--color-foreground), 0.05);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .size-chart-table tbody tr:hover {
+    background: rgba(var(--color-foreground), 0.02);
+  }
+
+  .size-chart-how-to h4,
+  .size-chart-international h4,
+  .size-chart-cup-sizes h4 {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+
+  .size-chart-how-to ol {
+    padding-left: 1.5rem;
+    margin: 0;
+  }
+
+  .size-chart-how-to li {
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .size-chart-note {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(var(--color-foreground), 0.05);
+    border-left: 3px solid rgba(var(--color-foreground), 0.3);
+    font-size: 0.875rem;
+  }
+
+  .size-chart-note p {
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .size-chart-table table {
+      font-size: 0.75rem;
+    }
+
+    .size-chart-table th,
+    .size-chart-table td {
+      padding: 0.5rem 0.25rem;
+    }
+
+    .size-chart-title {
+      font-size: 1.125rem;
+    }
+  }
+{% endstylesheet %}
+
+<script>
+  if (!customElements.get('size-chart')) {
+    customElements.define('size-chart', class SizeChart extends HTMLElement {
+      constructor() {
+        super();
+        this.toggleButtons = this.querySelectorAll('.size-chart-unit-toggle');
+        this.tables = this.querySelectorAll('[data-unit-type]');
+
+        this.toggleButtons.forEach(button => {
+          button.addEventListener('click', this.handleToggle.bind(this));
+        });
+      }
+
+      handleToggle(event) {
+        const selectedUnit = event.currentTarget.dataset.unit;
+
+        this.toggleButtons.forEach(btn => {
+          btn.setAttribute('aria-pressed', btn.dataset.unit === selectedUnit);
+        });
+
+        this.tables.forEach(table => {
+          table.style.display = table.dataset.unitType === selectedUnit ? 'block' : 'none';
+        });
+      }
+    });
+  }
+</script>
