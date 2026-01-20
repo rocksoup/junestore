@@ -749,6 +749,13 @@
       {{ product | structured_data }}
     </script>
   </div>
+
+  {%- comment -%} Sticky Add to Cart Bar for Mobile {%- endcomment -%}
+  {%- render 'sticky-add-to-cart-mobile',
+    product: product,
+    product_form_id: product_form_id,
+    section_id: section.id
+  -%}
 </product-info>
 
 {% schema %}
