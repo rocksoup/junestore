@@ -37,7 +37,8 @@
         "variant_picker": {
           "type": "variant_picker",
           "settings": {
-            "picker_type": "button"
+            "picker_type": "button",
+            "swatch_shape": "circle"
           }
         },
         "quantity_selector": {
@@ -54,6 +55,14 @@
         "description": {
           "type": "description",
           "settings": {}
+        },
+        "size_chart_link_dajHK7": {
+          "type": "size_chart_link",
+          "settings": {
+            "link_text": "Size Guide",
+            "link_style": "link",
+            "size_chart_section_id": "shopify-section-template--18319191670897__size_chart_modal_xthaxm"
+          }
         },
         "collapsible-row-0": {
           "type": "collapsible_tab",
@@ -107,6 +116,7 @@
         "quantity_selector",
         "buy_buttons",
         "description",
+        "size_chart_link_dajHK7",
         "collapsible-row-0",
         "collapsible-row-1",
         "collapsible-row-2",
@@ -115,10 +125,13 @@
       ],
       "settings": {
         "enable_sticky_info": true,
+        "color_scheme": "",
         "media_size": "large",
         "constrain_to_viewport": true,
+        "media_fit": "contain",
         "gallery_layout": "thumbnail_slider",
         "mobile_thumbnails": "show",
+        "media_position": "left",
         "image_zoom": "lightbox",
         "hide_variants": true,
         "enable_video_looping": false,
@@ -152,10 +165,12 @@
         "height": "small",
         "desktop_image_width": "medium",
         "layout": "text_first",
+        "image_behavior": "none",
         "content_layout": "no-overlap",
         "desktop_content_position": "top",
         "desktop_content_alignment": "left",
         "mobile_content_alignment": "left",
+        "section_color_scheme": "",
         "color_scheme": "scheme-2",
         "padding_top": 36,
         "padding_bottom": 36
@@ -209,15 +224,25 @@
       "settings": {
         "heading": "You may also like",
         "heading_size": "h2",
+        "products_to_show": 4,
         "columns_desktop": 4,
         "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "square",
+        "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
         "show_rating": false,
         "padding_top": 36,
         "padding_bottom": 28
+      }
+    },
+    "size_chart_modal_xthaxm": {
+      "type": "size-chart-modal",
+      "name": "Size Chart Modal",
+      "settings": {
+        "heading": "Size Guide",
+        "show_units_toggle": true
       }
     }
   },
@@ -225,6 +250,7 @@
     "main",
     "image-with-text",
     "multicolumn",
-    "related-products"
+    "related-products",
+    "size_chart_modal_xthaxm"
   ]
 }
