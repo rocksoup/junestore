@@ -25,6 +25,7 @@ This document defines the three-way synchronization workflow between:
 - **Bidirectional sync** - Changes can happen locally OR in Shopify admin
 - **Main-only branching** - All work happens on main branch (simple workflow)
 - **Auto-deploy on push** - Pushing to main deploys to live theme (during development phase)
+- **Never push without pulling admin changes first** - Always run `/sync-from-shopify` (or a manual theme pull) before any push
 
 ## Current Theme Setup
 
@@ -79,6 +80,14 @@ bd update <id> --status in_progress  # Claim the work
    ```
 
 **DO NOT push to GitHub until you're ready to deploy to Live** (since push = deploy during dev phase)
+**ALWAYS pull from Shopify before any push** to avoid overwriting admin edits:
+```bash
+/sync-from-shopify
+# or manually:
+shopify theme pull --only config/settings_data.json --only templates/*.json
+git add config/settings_data.json templates/*.json
+git commit -m "Sync configuration updates from Shopify admin"
+```
 
 ### Handling Shopify Admin Changes
 
@@ -120,19 +129,22 @@ git push
 **When you push to main, it deploys to Live theme:**
 
 ```bash
-# 1. Ensure local changes are committed
+# 1. Pull latest admin edits from Shopify (required before any push)
+/sync-from-shopify
+
+# 2. Ensure local changes are committed
 git status  # Should show "nothing to commit"
 
-# 2. Run quality checks (if applicable)
+# 3. Run quality checks (if applicable)
 shopify theme check
 
-# 3. Pull latest from remote (in case someone else pushed)
+# 4. Pull latest from remote (in case someone else pushed)
 git pull --rebase
 
-# 4. Push to GitHub (this triggers deployment to live)
+# 5. Push to GitHub (this triggers deployment to live)
 git push
 
-# 5. Verify deployment
+# 6. Verify deployment
 # Visit https://junelingerie.com to confirm changes are live
 ```
 
@@ -225,21 +237,24 @@ git push
 **MANDATORY steps before ending work session:**
 
 ```bash
-# 1. Verify all work is committed
+# 1. Pull latest admin edits from Shopify (required before any push)
+/sync-from-shopify
+
+# 2. Verify all work is committed
 git status  # Should show "nothing to commit"
 
-# 2. Update issue tracking
+# 3. Update issue tracking
 bd close <id>         # Close completed issues
 bd sync               # Sync beads with git
 
-# 3. Push everything to GitHub
+# 4. Push everything to GitHub
 git pull --rebase     # Get latest changes
 git push              # Push your work (deploys to live in dev phase)
 
-# 4. Verify push succeeded
+# 5. Verify push succeeded
 git status            # Must show "Your branch is up to date with 'origin/main'"
 
-# 5. Verify deployment (if auto-deploying)
+# 6. Verify deployment (if auto-deploying)
 # Visit https://junelingerie.com to confirm changes are live
 ```
 
@@ -406,7 +421,7 @@ git push
 # Start local development
 shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
 
-# Pull admin changes
+# Pull admin changes (required before any push)
 /sync-from-shopify
 
 # Check for theme issues
@@ -418,8 +433,8 @@ shopify theme push --live --allow-live
 # List themes
 shopify theme list
 
-# Session close
-git status && bd sync && git pull --rebase && git push
+# Session close (pull admin edits first)
+/sync-from-shopify && git status && bd sync && git pull --rebase && git push
 ```
 
 ### Workflow Shortcuts
