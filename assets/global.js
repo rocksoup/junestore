@@ -217,17 +217,21 @@ function onKeyUpEscape(event) {
 class QuantityInput extends HTMLElement {
   constructor() {
     super();
-    this.input = this.querySelector('input');
     this.changeEvent = new Event('change', { bubbles: true });
-    this.input.addEventListener('change', this.onInputChange.bind(this));
-    this.querySelectorAll('button').forEach((button) =>
-      button.addEventListener('click', this.onButtonClick.bind(this))
-    );
+    this.onInputChange = this.onInputChange.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
   }
 
   quantityUpdateUnsubscriber = undefined;
+  initialized = false;
 
   connectedCallback() {
+    if (this.initialized) return;
+    this.input = this.querySelector('input');
+    if (!this.input) return;
+    this.initialized = true;
+    this.input.addEventListener('change', this.onInputChange);
+    this.querySelectorAll('button').forEach((button) => button.addEventListener('click', this.onButtonClick));
     this.validateQtyRules();
     this.quantityUpdateUnsubscriber = subscribe(PUB_SUB_EVENTS.quantityUpdate, this.validateQtyRules.bind(this));
   }
@@ -264,6 +268,7 @@ class QuantityInput extends HTMLElement {
   }
 
   validateQtyRules() {
+    if (!this.input) return;
     const value = parseInt(this.input.value);
     if (this.input.min) {
       const buttonMinus = this.querySelector(".quantity__button[name='minus']");
