@@ -1,0 +1,205 @@
+{% doc %}
+  ABOUTME: Renders product metafields for fabric, care, fit information in collapsible accordions.
+  ABOUTME: Displays custom metafields with graceful handling of empty values.
+
+  Accepts:
+  - product: {Object} Product object (required)
+  - section_id: {String} Section ID for unique element IDs (required)
+
+  Usage:
+  {% render 'product-metafields', product: product, section_id: section.id %}
+
+  Metafields displayed:
+  - custom.fabric_content: Fabric composition and materials
+  - custom.fabric_stretch: Stretch properties and fit behavior
+  - custom.care_instructions: Washing and care guidance
+  - custom.model_measurements: Model body measurements (JSON or text)
+  - custom.recommended_for: Body types and use cases (list)
+
+  Each metafield section only displays if the metafield contains data.
+{% enddoc %}
+
+{%- liquid
+  assign fabric_content = product.metafields.custom.fabric_content
+  assign fabric_stretch = product.metafields.custom.fabric_stretch
+  assign care_instructions = product.metafields.custom.care_instructions
+  assign model_measurements = product.metafields.custom.model_measurements
+  assign recommended_for = product.metafields.custom.recommended_for
+
+  assign has_materials = false
+  if fabric_content != blank or fabric_stretch != blank
+    assign has_materials = true
+  endif
+
+  assign has_fit_guide = false
+  if model_measurements != blank or recommended_for != blank
+    assign has_fit_guide = true
+  endif
+-%}
+
+{%- if has_materials -%}
+  <div class="product__accordion accordion quick-add-hidden">
+    <details id="Details-materials-{{ section_id }}">
+      <summary>
+        <div class="summary__title">
+          {% render 'icon-accordion', icon: 'leather' %}
+          <h2 class="h4 accordion__title inline-richtext">
+            Materials & Fabric
+          </h2>
+        </div>
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </summary>
+      <div class="accordion__content rte" id="ProductAccordion-materials-{{ section_id }}">
+        {%- if fabric_content != blank -%}
+          <div class="metafield-fabric-content">
+            <h3 class="h6">Fabric Content</h3>
+            <div class="metafield-value">{{ fabric_content | newline_to_br }}</div>
+          </div>
+        {%- endif -%}
+
+        {%- if fabric_stretch != blank -%}
+          <div class="metafield-fabric-stretch">
+            <h3 class="h6">Stretch & Fit</h3>
+            <div class="metafield-value">{{ fabric_stretch }}</div>
+          </div>
+        {%- endif -%}
+      </div>
+    </details>
+  </div>
+{%- endif -%}
+
+{%- if care_instructions != blank -%}
+  <div class="product__accordion accordion quick-add-hidden">
+    <details id="Details-care-{{ section_id }}">
+      <summary>
+        <div class="summary__title">
+          {% render 'icon-accordion', icon: 'heart' %}
+          <h2 class="h4 accordion__title inline-richtext">
+            Care Instructions
+          </h2>
+        </div>
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </summary>
+      <div class="accordion__content rte" id="ProductAccordion-care-{{ section_id }}">
+        <div class="metafield-care-instructions">
+          {{ care_instructions | newline_to_br }}
+        </div>
+      </div>
+    </details>
+  </div>
+{%- endif -%}
+
+{%- if has_fit_guide -%}
+  <div class="product__accordion accordion quick-add-hidden">
+    <details id="Details-fit-{{ section_id }}">
+      <summary>
+        <div class="summary__title">
+          {% render 'icon-accordion', icon: 'ruler' %}
+          <h2 class="h4 accordion__title inline-richtext">
+            Fit Guide
+          </h2>
+        </div>
+        {{- 'icon-caret.svg' | inline_asset_content -}}
+      </summary>
+      <div class="accordion__content rte" id="ProductAccordion-fit-{{ section_id }}">
+        {%- if model_measurements != blank -%}
+          <div class="metafield-model-measurements">
+            <h3 class="h6">Model Information</h3>
+            {%- liquid
+              assign measurements_type = model_measurements.type | default: 'string'
+
+              if measurements_type == 'json'
+                assign measurements = model_measurements.value
+                echo '<ul class="metafield-list">'
+                if measurements.size_worn != blank
+                  echo '<li><strong>Size worn:</strong> ' | append: measurements.size_worn | append: '</li>'
+                endif
+                if measurements.bust != blank
+                  echo '<li><strong>Bust:</strong> ' | append: measurements.bust | append: '</li>'
+                endif
+                if measurements.waist != blank
+                  echo '<li><strong>Waist:</strong> ' | append: measurements.waist | append: '</li>'
+                endif
+                if measurements.hips != blank
+                  echo '<li><strong>Hips:</strong> ' | append: measurements.hips | append: '</li>'
+                endif
+                if measurements.height != blank
+                  echo '<li><strong>Height:</strong> ' | append: measurements.height | append: '</li>'
+                endif
+                echo '</ul>'
+              else
+                echo '<div class="metafield-value">'
+                echo model_measurements | newline_to_br
+                echo '</div>'
+              endif
+            -%}
+          </div>
+        {%- endif -%}
+
+        {%- if recommended_for != blank -%}
+          <div class="metafield-recommended-for">
+            <h3 class="h6">Recommended For</h3>
+            {%- liquid
+              assign rec_type = recommended_for.type | default: 'string'
+
+              if rec_type == 'list.single_line_text_field'
+                echo '<ul class="metafield-list">'
+                for item in recommended_for.value
+                  echo '<li>' | append: item | append: '</li>'
+                endfor
+                echo '</ul>'
+              else
+                echo '<div class="metafield-value">'
+                echo recommended_for | newline_to_br
+                echo '</div>'
+              endif
+            -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </details>
+  </div>
+{%- endif -%}
+
+{%- style -%}
+  .metafield-fabric-content,
+  .metafield-fabric-stretch,
+  .metafield-model-measurements,
+  .metafield-recommended-for {
+    margin-bottom: 1.5rem;
+  }
+
+  .metafield-fabric-content:last-child,
+  .metafield-fabric-stretch:last-child,
+  .metafield-model-measurements:last-child,
+  .metafield-recommended-for:last-child {
+    margin-bottom: 0;
+  }
+
+  .metafield-value {
+    margin-top: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .metafield-list {
+    margin: 0.5rem 0 0 0;
+    padding-left: 1.5rem;
+    list-style: disc;
+  }
+
+  .metafield-list li {
+    margin-bottom: 0.25rem;
+    line-height: 1.6;
+  }
+
+  .metafield-fabric-content .h6,
+  .metafield-fabric-stretch .h6,
+  .metafield-model-measurements .h6,
+  .metafield-recommended-for .h6 {
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    font-size: 0.875em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+{%- endstyle -%}
