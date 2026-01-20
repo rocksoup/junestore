@@ -144,12 +144,26 @@
       class StickyAddToCartMobile extends HTMLElement {
         constructor() {
           super();
+          this.initAttempts = 0;
+          this.initialized = false;
+        }
+
+        connectedCallback() {
+          if (this.initialized || !this.isConnected) return;
+
+          this.initAttempts += 1;
           this.sectionId = this.dataset.sectionId;
           this.stickyBar = document.getElementById(`StickyAddToCart-${this.sectionId}`);
           this.buyButtonsSection = document.querySelector(`#ProductInfo-${this.sectionId} [name="add"]`)?.closest('.product-form__buttons');
 
-          if (!this.buyButtonsSection) return;
+          if (!this.sectionId || !this.stickyBar || !this.buyButtonsSection) {
+            if (this.initAttempts < 5) {
+              requestAnimationFrame(() => this.connectedCallback());
+            }
+            return;
+          }
 
+          this.initialized = true;
           this.init();
         }
 
