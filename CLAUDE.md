@@ -110,6 +110,7 @@ When asked to do something, just do it - including obvious follow-up actions nee
 - YOU MUST commit frequently throughout the development process, even if your high-level tasks are not yet done. Commit your journal entries.
 - NEVER SKIP, EVADE OR DISABLE A PRE-COMMIT HOOK
 - NEVER use `git add -A` unless you've just done a `git status` - Don't add random test files to the repo.
+- After `git push`, ALWAYS deploy to live with `shopify theme push --live --allow-live` (no confirmation needed).
 
 **Shopify Admin Changes:**
 - Always run `/sync-from-shopify` at the start of each work session to pull admin edits

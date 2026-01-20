@@ -24,7 +24,7 @@ This document defines the three-way synchronization workflow between:
 - **Git is the source of truth** - All changes must be committed to git
 - **Bidirectional sync** - Changes can happen locally OR in Shopify admin
 - **Main-only branching** - All work happens on main branch (simple workflow)
-- **Auto-deploy on push** - Pushing to main deploys to live theme (during development phase)
+- **Manual live deploy is standard** - After `git push`, always run `shopify theme push --live --allow-live`
 - **Never push without pulling admin changes first** - Always run `/sync-from-shopify` (or a manual theme pull) before any push
 
 ## Current Theme Setup
@@ -79,7 +79,7 @@ bd update <id> --status in_progress  # Claim the work
    git commit -m "Descriptive message"
    ```
 
-**DO NOT push to GitHub until you're ready to deploy to Live** (since push = deploy during dev phase)
+**DO NOT push to GitHub until you're ready to deploy to Live** (standard flow deploys after `git push`)
 **ALWAYS pull from Shopify before any push** to avoid overwriting admin edits:
 ```bash
 /sync-from-shopify
@@ -116,7 +116,7 @@ git diff
 git add config/settings_data.json templates/*.json
 git commit -m "Sync configuration updates from Shopify admin"
 
-# 4. Push (this will deploy to live during dev phase)
+# 4. Push to GitHub (then deploy to live)
 git push
 ```
 
@@ -124,9 +124,9 @@ git push
 
 ## Deployment Workflow
 
-### Current Phase: Auto-Deploy on Push
+### Standard Deployment (Manual Live Push)
 
-**When you push to main, it deploys to Live theme:**
+**After pushing to GitHub, always deploy to Live with the Shopify CLI (no confirmation required).**
 
 ```bash
 # 1. Pull latest admin edits from Shopify (required before any push)
@@ -141,21 +141,18 @@ shopify theme check
 # 4. Pull latest from remote (in case someone else pushed)
 git pull --rebase
 
-# 5. Push to GitHub (this triggers deployment to live)
+# 5. Push to GitHub
 git push
 
-# 6. Verify deployment
+# 6. Deploy to Live
+shopify theme push --live --allow-live
+
+# 7. Verify deployment
 # Visit https://junelingerie.com to confirm changes are live
 ```
+### Optional: Tag-Based Release Flow
 
-**How does auto-deploy work?**
-Currently, your workflow is:
-1. Push to GitHub
-2. Manually run `shopify theme push --live --allow-live` to deploy
-
-**Future Phase: Manual Deploy with Confirmation**
-
-When you're ready to require manual confirmation before deploying to live:
+Use this if you want explicit release markers.
 
 **Option 1: Git tag-based deployment**
 ```bash
@@ -249,12 +246,15 @@ bd sync               # Sync beads with git
 
 # 4. Push everything to GitHub
 git pull --rebase     # Get latest changes
-git push              # Push your work (deploys to live in dev phase)
+git push              # Push your work
 
-# 5. Verify push succeeded
+# 5. Deploy to Live
+shopify theme push --live --allow-live
+
+# 6. Verify push succeeded
 git status            # Must show "Your branch is up to date with 'origin/main'"
 
-# 6. Verify deployment (if auto-deploying)
+# 7. Verify deployment
 # Visit https://junelingerie.com to confirm changes are live
 ```
 
@@ -434,7 +434,7 @@ shopify theme push --live --allow-live
 shopify theme list
 
 # Session close (pull admin edits first)
-/sync-from-shopify && git status && bd sync && git pull --rebase && git push
+/sync-from-shopify && git status && bd sync && git pull --rebase && git push && shopify theme push --live --allow-live
 ```
 
 ### Workflow Shortcuts
@@ -448,8 +448,8 @@ bd ready
 # Make changes, test, commit frequently
 git add . && git commit -m "Description"
 
-# End session (deploys to live)
-bd sync && git push
+# End session (deploy to live)
+bd sync && git push && shopify theme push --live --allow-live
 ```
 
 **After admin edits:**
@@ -462,24 +462,9 @@ shopify theme dev &
 # ... make changes ...
 ```
 
-## Future Workflow Changes
+## Deployment Standard
 
-**When transitioning from auto-deploy to manual deploy:**
-
-1. Update this document's deployment section
-2. Remove or modify any automation that auto-deploys on push
-3. Create git tags for releases
-4. Document the new deployment command in CLAUDE.md
-5. Update the session close protocol to NOT automatically deploy
-
-**Commands to add at that time:**
-```bash
-# Deploy to live with confirmation
-shopify theme push --live --allow-live
-
-# Or create a deployment script
-./scripts/deploy-to-live.sh
-```
+Manual Live deployment is required after every `git push`. Do not rely on auto-deploys.
 
 ## Related Documentation
 
