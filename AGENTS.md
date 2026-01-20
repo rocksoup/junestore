@@ -2,6 +2,8 @@
 
 This project uses **bd** (beads) for issue tracking. Run `bd onboard` to get started.
 
+**Shopify Theme Workflow:** See [docs/SHOPIFY_SYNC_WORKFLOW.md](docs/SHOPIFY_SYNC_WORKFLOW.md) for the complete workflow on synchronizing between Local, Git/GitHub, and Shopify themes.
+
 ## Quick Reference
 
 ```bash
