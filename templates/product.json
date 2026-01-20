@@ -60,8 +60,8 @@
           "type": "size_chart_link",
           "settings": {
             "link_text": "Size Guide",
-            "link_style": "link",
-            "size_chart_section_id": "shopify-section-template--18319191670897__size_chart_modal_xthaxm"
+            "link_style": "button",
+            "size_chart_section_id": "template--18319191670897__size_chart_modal_xthaxm"
           }
         },
         "collapsible-row-0": {

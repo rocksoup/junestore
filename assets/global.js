@@ -607,7 +607,7 @@ customElements.define('header-drawer', HeaderDrawer);
 class ModalDialog extends HTMLElement {
   constructor() {
     super();
-    this.querySelector('[id^="ModalClose-"]').addEventListener('click', this.hide.bind(this, false));
+    this.onCloseClick = this.hide.bind(this, false);
     this.addEventListener('keyup', (event) => {
       if (event.code.toUpperCase() === 'ESCAPE') this.hide();
     });
@@ -624,6 +624,10 @@ class ModalDialog extends HTMLElement {
 
   connectedCallback() {
     if (this.moved) return;
+    const closeButton = this.querySelector('[id^="ModalClose-"]');
+    if (closeButton) {
+      closeButton.addEventListener('click', this.onCloseClick);
+    }
     this.moved = true;
     this.dataset.section = this.closest('.shopify-section').id.replace('shopify-section-', '');
     document.body.appendChild(this);
