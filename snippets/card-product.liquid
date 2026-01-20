@@ -35,11 +35,13 @@
     if featured_media
       assign featured_image = featured_media.preview_image
       assign featured_alt = featured_media.alt | default: featured_image.alt
+      assign featured_image_width = featured_image.width | at_most: 5760
     endif
     assign secondary_media = card_product.media[1]
     if secondary_media
       assign secondary_image = secondary_media.preview_image
       assign secondary_alt = secondary_media.alt | default: secondary_image.alt
+      assign secondary_image_width = secondary_image.width | at_most: 5760
     endif
     if card_product.featured_media and media_aspect_ratio == 'portrait'
       assign ratio = 0.8
@@ -78,7 +80,7 @@
                 {%- if featured_image.width >= 720 -%}{{ featured_image | image_url: width: 720, format: 'webp' }} 720w,{%- endif -%}
                 {%- if featured_image.width >= 940 -%}{{ featured_image | image_url: width: 940, format: 'webp' }} 940w,{%- endif -%}
                 {%- if featured_image.width >= 1066 -%}{{ featured_image | image_url: width: 1066, format: 'webp' }} 1066w,{%- endif -%}
-                {{ featured_image | image_url: format: 'webp' }} {{ featured_image.width }}w
+                {{ featured_image | image_url: width: featured_image_width, format: 'webp' }} {{ featured_image_width }}w
               {%- endcapture -%}
               <picture>
                 <source
@@ -117,7 +119,7 @@
                   {%- if secondary_image.width >= 720 -%}{{ secondary_image | image_url: width: 720, format: 'webp' }} 720w,{%- endif -%}
                   {%- if secondary_image.width >= 940 -%}{{ secondary_image | image_url: width: 940, format: 'webp' }} 940w,{%- endif -%}
                   {%- if secondary_image.width >= 1066 -%}{{ secondary_image | image_url: width: 1066, format: 'webp' }} 1066w,{%- endif -%}
-                  {{ secondary_image | image_url: format: 'webp' }} {{ secondary_image.width }}w
+                  {{ secondary_image | image_url: width: secondary_image_width, format: 'webp' }} {{ secondary_image_width }}w
                 {%- endcapture -%}
                 <picture>
                   <source

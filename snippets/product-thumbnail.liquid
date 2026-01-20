@@ -30,6 +30,8 @@
     assign lazy = 'lazy'
   endunless
 
+  assign preview_image_width = media.preview_image.width | at_most: 5760
+
   assign desktop_columns = 1
   if desktop_layout == 'columns' and media_count > 1
     assign desktop_columns = 2
@@ -62,7 +64,7 @@
   {%- if media.preview_image.width >= 1426 -%}{{ media.preview_image | image_url: width: 1426, format: 'webp' }} 1426w,{%- endif -%}
   {%- if media.preview_image.width >= 1646 -%}{{ media.preview_image | image_url: width: 1646, format: 'webp' }} 1646w,{%- endif -%}
   {%- if media.preview_image.width >= 1946 -%}{{ media.preview_image | image_url: width: 1946, format: 'webp' }} 1946w,{%- endif -%}
-  {{ media.preview_image | image_url: format: 'webp' }} {{ media.preview_image.width }}w
+  {{ media.preview_image | image_url: width: preview_image_width, format: 'webp' }} {{ preview_image_width }}w
 {%- endcapture -%}
 
 <div
