@@ -22,7 +22,11 @@
 
     <div class="size-chart-modal__content-info">
       <h2 id="SizeChartModalHeading-{{ section.id }}" class="size-chart-modal__heading">
-        {{ section.settings.heading | default: 'size_chart.heading' | t }}
+        {%- if section.settings.heading != blank -%}
+          {{ section.settings.heading }}
+        {%- else -%}
+          {{ 'size_chart.heading' | t }}
+        {%- endif -%}
       </h2>
 
       <size-chart>

@@ -13,7 +13,11 @@
 {% endcomment %}
 
 {%- liquid
-  assign link_text = text | default: 'size_chart.heading' | t
+  if text != blank
+    assign link_text = text
+  else
+    assign link_text = 'size_chart.heading' | t
+  endif
   assign link_style = style | default: 'link'
   assign modal_id = 'SizeChartModal-' | append: section_id
 -%}
