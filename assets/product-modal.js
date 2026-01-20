@@ -28,7 +28,11 @@ if (!customElements.get('product-modal')) {
         activeMedia.scrollIntoView();
 
         const container = this.querySelector('[role="document"]');
-        container.scrollLeft = (activeMedia.width - container.clientWidth) / 2;
+        // Get width from img element if activeMedia is a picture element, otherwise use activeMedia.width
+        const mediaWidth = activeMedia.nodeName === 'PICTURE'
+          ? activeMedia.querySelector('img')?.offsetWidth || activeMedia.offsetWidth
+          : activeMedia.width || activeMedia.offsetWidth;
+        container.scrollLeft = (mediaWidth - container.clientWidth) / 2;
 
         if (
           activeMedia.nodeName == 'DEFERRED-MEDIA' &&
