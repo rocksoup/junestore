@@ -635,6 +635,12 @@ a.product__text {
   max-height: 100vh;
   width: 100%;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y pinch-zoom;
+}
+
+.product-media-modal__content img {
+  touch-action: pinch-zoom;
 }
 
 .product-media-modal__content > *:not(.active),
