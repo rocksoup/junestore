@@ -325,6 +325,12 @@ MCP servers are configured in `.mcp.json` at the project root (version controlle
 **Command:** `npx chrome-devtools-mcp@latest`
 **Status:** Always enabled by default
 
+**Codex CLI setup (if tools are missing):**
+```bash
+codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest
+```
+If MCP tools still do not appear in the session, restart the Codex session to reload MCP server definitions.
+
 **Use this server for:**
 - Running and debugging the theme in Chrome
 - Testing responsive behavior and browser compatibility
