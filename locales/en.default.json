@@ -50,6 +50,9 @@
       "share_url": "Link",
       "success_message": "Link copied to clipboard"
     },
+    "breadcrumbs": {
+      "home": "Home"
+    },
     "slider": {
       "of": "of",
       "next_slide": "Slide right",

@@ -1,0 +1,201 @@
+{% comment %}
+  ABOUTME: Renders breadcrumb navigation with schema.org BreadcrumbList markup.
+  ABOUTME: Displays hierarchical navigation path for better UX and SEO.
+
+  Accepts:
+  - show_home: {Boolean} Show "Home" link (default: true)
+
+  Usage:
+  {% render 'breadcrumbs' %}
+{% endcomment %}
+
+{%- liquid
+  assign show_home = show_home | default: true
+  assign breadcrumb_items = ''
+  assign item_count = 0
+-%}
+
+{%- capture breadcrumb_json -%}
+[
+  {%- if show_home -%}
+    {%- assign item_count = item_count | plus: 1 -%}
+    {
+      "@type": "ListItem",
+      "position": {{ item_count }},
+      "name": "Home",
+      "item": "{{ shop.url }}"
+    }
+  {%- endif -%}
+
+  {%- case request.page_type -%}
+    {%- when 'product' -%}
+      {%- if product.collections.size > 0 -%}
+        {%- assign collection = product.collections.first -%}
+        {%- assign item_count = item_count | plus: 1 -%}
+        ,{
+          "@type": "ListItem",
+          "position": {{ item_count }},
+          "name": {{ collection.title | json }},
+          "item": "{{ shop.url }}{{ collection.url }}"
+        }
+      {%- endif -%}
+      {%- assign item_count = item_count | plus: 1 -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ item_count }},
+        "name": {{ product.title | json }},
+        "item": "{{ shop.url }}{{ product.url }}"
+      }
+    {%- when 'collection' -%}
+      {%- assign item_count = item_count | plus: 1 -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ item_count }},
+        "name": {{ collection.title | json }},
+        "item": "{{ shop.url }}{{ collection.url }}"
+      }
+    {%- when 'article' -%}
+      {%- assign item_count = item_count | plus: 1 -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ item_count }},
+        "name": {{ blog.title | json }},
+        "item": "{{ shop.url }}{{ blog.url }}"
+      }
+      {%- assign item_count = item_count | plus: 1 -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ item_count }},
+        "name": {{ article.title | json }},
+        "item": "{{ shop.url }}{{ article.url }}"
+      }
+    {%- when 'page' -%}
+      {%- assign item_count = item_count | plus: 1 -%}
+      ,{
+        "@type": "ListItem",
+        "position": {{ item_count }},
+        "name": {{ page.title | json }},
+        "item": "{{ shop.url }}{{ page.url }}"
+      }
+  {%- endcase -%}
+]
+{%- endcapture -%}
+
+{%- if item_count > 1 -%}
+  <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    <ol class="breadcrumbs__list">
+      {%- if show_home -%}
+        <li class="breadcrumbs__item">
+          <a href="{{ routes.root_url }}" class="breadcrumbs__link">
+            {{ 'general.breadcrumbs.home' | t }}
+          </a>
+        </li>
+      {%- endif -%}
+
+      {%- case request.page_type -%}
+        {%- when 'product' -%}
+          {%- if product.collections.size > 0 -%}
+            {%- assign collection = product.collections.first -%}
+            <li class="breadcrumbs__item">
+              <a href="{{ collection.url }}" class="breadcrumbs__link">
+                {{ collection.title }}
+              </a>
+            </li>
+          {%- endif -%}
+          <li class="breadcrumbs__item breadcrumbs__item--current">
+            <span class="breadcrumbs__text" aria-current="page">
+              {{ product.title }}
+            </span>
+          </li>
+
+        {%- when 'collection' -%}
+          <li class="breadcrumbs__item breadcrumbs__item--current">
+            <span class="breadcrumbs__text" aria-current="page">
+              {{ collection.title }}
+            </span>
+          </li>
+
+        {%- when 'article' -%}
+          <li class="breadcrumbs__item">
+            <a href="{{ blog.url }}" class="breadcrumbs__link">
+              {{ blog.title }}
+            </a>
+          </li>
+          <li class="breadcrumbs__item breadcrumbs__item--current">
+            <span class="breadcrumbs__text" aria-current="page">
+              {{ article.title }}
+            </span>
+          </li>
+
+        {%- when 'page' -%}
+          <li class="breadcrumbs__item breadcrumbs__item--current">
+            <span class="breadcrumbs__text" aria-current="page">
+              {{ page.title }}
+            </span>
+          </li>
+      {%- endcase -%}
+    </ol>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": {{ breadcrumb_json }}
+    }
+    </script>
+  </nav>
+
+  {% stylesheet %}
+    .breadcrumbs {
+      margin-bottom: 2rem;
+      font-size: 0.875rem;
+    }
+
+    .breadcrumbs__list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      gap: 0.5rem;
+    }
+
+    .breadcrumbs__item {
+      display: flex;
+      align-items: center;
+    }
+
+    .breadcrumbs__item:not(:last-child)::after {
+      content: '/';
+      margin-left: 0.5rem;
+      color: rgba(var(--color-foreground), 0.5);
+    }
+
+    .breadcrumbs__link {
+      color: rgba(var(--color-foreground), 0.75);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .breadcrumbs__link:hover {
+      color: rgba(var(--color-foreground), 1);
+      text-decoration: underline;
+    }
+
+    .breadcrumbs__text {
+      color: rgba(var(--color-foreground), 0.5);
+    }
+
+    .breadcrumbs__item--current .breadcrumbs__text {
+      font-weight: 500;
+    }
+
+    @media screen and (max-width: 749px) {
+      .breadcrumbs {
+        margin-bottom: 1rem;
+        font-size: 0.8125rem;
+      }
+    }
+  {% endstylesheet %}
+{%- endif -%}

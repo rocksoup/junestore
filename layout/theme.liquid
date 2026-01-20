@@ -16,14 +16,36 @@
     {%- endunless -%}
 
     <title>
-      {{ page_title }}
-      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- if request.page_type == 'product' -%}
+        {%- liquid
+          assign title_parts = product.title | append: ' | ' | append: shop.name
+          if title_parts.size > 60
+            assign title_parts = product.title | truncate: 50, '...' | append: ' | ' | append: shop.name
+          endif
+        -%}
+        {{ title_parts }}
+      {%- else -%}
+        {{ page_title }}
+        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- endif -%}
     </title>
 
-    {% if page_description %}
-      <meta name="description" content="{{ page_description | escape }}">
+    {%- liquid
+      assign meta_description = page_description
+      if request.page_type == 'product' and meta_description == blank
+        if product.description != blank
+          assign meta_description = product.description | strip_html | truncate: 155, '...'
+        else
+          assign meta_description = product.title | append: ' - Available at ' | append: shop.name
+        endif
+      elsif meta_description == blank
+        assign meta_description = shop.description | default: shop.name
+      endif
+    -%}
+    {% if meta_description %}
+      <meta name="description" content="{{ meta_description | escape }}">
     {% endif %}
 
     {% render 'meta-tags' %}
