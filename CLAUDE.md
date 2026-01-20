@@ -100,13 +100,21 @@ When asked to do something, just do it - including obvious follow-up actions nee
 
 ## Version Control
 
+**Shopify Theme Sync Workflow:** See [docs/SHOPIFY_SYNC_WORKFLOW.md](docs/SHOPIFY_SYNC_WORKFLOW.md) for complete three-way sync workflow between Local ↔ Git ↔ Shopify.
+
+**Core Rules:**
 - If the project isn't in a git repo, STOP and ask permission to initialize one.
-- YOU MUST STOP and ask how to handle uncommitted changes or untracked files when starting work.  Suggest committing existing work first.
-- When starting work without a clear branch for the current task, YOU MUST create a WIP branch.
+- YOU MUST STOP and ask how to handle uncommitted changes or untracked files when starting work. Suggest committing existing work first.
+- This project uses **main-only branching** - all work happens on main branch. DO NOT create feature branches or WIP branches.
 - YOU MUST TRACK All non-trivial changes in git.
 - YOU MUST commit frequently throughout the development process, even if your high-level tasks are not yet done. Commit your journal entries.
 - NEVER SKIP, EVADE OR DISABLE A PRE-COMMIT HOOK
 - NEVER use `git add -A` unless you've just done a `git status` - Don't add random test files to the repo.
+
+**Shopify Admin Changes:**
+- Always run `/sync-from-shopify` at the start of each work session to pull admin edits
+- This pulls config/template changes from Shopify theme editor and commits them to git
+- Prevents conflicts between local and admin changes
 
 ## Testing
 
@@ -288,6 +296,12 @@ YOU MUST follow this debugging framework for ANY technical issue:
 shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
 ```
 Starts local dev server at http://127.0.0.1:9292 with hot reload
+
+**Sync from Shopify:**
+```bash
+/sync-from-shopify
+```
+Pulls configuration and template changes from Shopify admin, commits to git. Run at start of each session.
 
 **Theme Check (Linting):**
 ```bash
