@@ -12,6 +12,20 @@ shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
 
 This will start the server at http://127.0.0.1:9292 with live reloading for CSS and sections.
 
+## MCP Servers
+
+This project uses MCP (Model Context Protocol) servers for enhanced development capabilities:
+
+- **Chrome DevTools MCP** (always enabled): Browser debugging, testing, and automation
+- **Shopify MCP** (disabled by default): Shopify-specific theme development and validation
+
+Configuration is in `.mcp.json`. See [CLAUDE.md](CLAUDE.md#-mcp-server-management) for details.
+
+```bash
+# Check MCP server status
+claude mcp list
+```
+
 ## Project Documentation
 
 - **Development Plan**: See [docs/PLAN.md](docs/PLAN.md) for the complete development roadmap

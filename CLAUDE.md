@@ -317,7 +317,28 @@ bd show <id>               # View issue details
 
 ## 🔌 MCP Server Management
 
-**Default State:** Shopify MCP server is **disabled by default** to conserve token usage (~3,000-5,000 tokens per message).
+MCP servers are configured in `.mcp.json` at the project root (version controlled).
+
+### Chrome DevTools MCP Server (Always Enabled)
+
+**Purpose:** Browser debugging, testing, and automation
+**Command:** `npx chrome-devtools-mcp@latest`
+**Status:** Always enabled by default
+
+**Use this server for:**
+- Running and debugging the theme in Chrome
+- Testing responsive behavior and browser compatibility
+- Inspecting DOM and debugging JavaScript
+- Performance profiling and analysis
+- Automated browser testing with Playwright
+
+The Chrome DevTools MCP server provides direct access to Chrome browser functionality, enabling automated testing, debugging, and visual verification of theme changes.
+
+### Shopify MCP Server (Optional)
+
+**Purpose:** Shopify-specific theme development
+**Command:** `npx -y @shopify/dev-mcp@latest`
+**Status:** Disabled by default to conserve tokens (~3,000-5,000 tokens per message)
 
 **When to Enable:**
 Claude should suggest enabling the Shopify MCP server when working on:
@@ -331,30 +352,32 @@ Claude should suggest enabling the Shopify MCP server when working on:
 - General project work (git, planning, documentation)
 - Non-Shopify code (plain HTML/CSS/JS)
 - Issue tracking and project management
-- Debugging non-Shopify-specific problems
+- Browser debugging and testing (use Chrome DevTools MCP instead)
 
 **Toggle Commands:**
 ```bash
 # Check current status
 claude mcp list
 
-# Enable Shopify MCP server
-claude mcp add shopify-dev-mcp "npx -y @shopify/dev-mcp@latest"
+# Enable Shopify MCP server (edit .mcp.json)
+# Change "disabled": true to "disabled": false for shopify-dev-mcp
 
-# Disable Shopify MCP server
+# Or use CLI to toggle
+claude mcp add shopify-dev-mcp --scope project "npx -y @shopify/dev-mcp@latest"
 claude mcp remove shopify-dev-mcp
 ```
 
 **Token Impact:**
-- With server enabled: ~3,000-5,000 additional tokens per message
-- Adds 10 tool definitions to every conversation turn
+- Shopify MCP enabled: ~3,000-5,000 additional tokens per message
+- Adds 10 Shopify-specific tool definitions to every conversation turn
 - Can significantly impact usage limits during extended sessions
+- Chrome DevTools MCP has minimal token overhead
 
-**Workflow:**
-1. Start session with server disabled (default)
-2. When Shopify-specific work begins, Claude suggests enabling it
-3. Enable server for that work session
-4. Disable when done with Shopify-specific tasks
+**Recommended Workflow:**
+1. Start session with Shopify MCP disabled (default) and Chrome DevTools enabled
+2. Use Chrome DevTools MCP for all browser testing and debugging
+3. When Shopify-specific work begins (Liquid, GraphQL, etc.), enable Shopify MCP
+4. Disable Shopify MCP when done with Shopify-specific tasks
 
 ## 🏗️ Project Architecture
 
@@ -384,6 +407,7 @@ claude mcp remove shopify-dev-mcp
 - `AGENTS.md` — Agent workflow documentation
 - `README.md` — Quick start and project overview
 - `docs/PLAN.md` — Development roadmap
+- `.mcp.json` — MCP server configuration (Chrome DevTools, Shopify)
 
 ---
 
