@@ -37,6 +37,11 @@ Before committing ANY visual change:
 
 ---
 
+## Store Information
+
+*   **Source URL (Admin/API):** `https://june-lingerie-2.myshopify.com/`
+*   **Public URL:** `https://junelingerie.com`
+
 ## Quick Start - Development Server
 
 To start the local development server with hot reload:
