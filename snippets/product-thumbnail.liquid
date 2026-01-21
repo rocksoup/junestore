@@ -45,6 +45,26 @@
   if media.media_type == 'image'
     assign image_class = 'image-magnify-' | append: section.settings.image_zoom
   endif
+
+  assign pswp_video_src = blank
+  assign pswp_video_mime = blank
+  assign pswp_video_host = blank
+  assign pswp_video_id = blank
+
+  if media.media_type == 'video'
+    assign pswp_video_source = media.sources | where: 'format', 'mp4' | first
+    if pswp_video_source == nil
+      assign pswp_video_source = media.sources | first
+    endif
+
+    if pswp_video_source != nil
+      assign pswp_video_src = pswp_video_source.url
+      assign pswp_video_mime = pswp_video_source.mime_type
+    endif
+  elsif media.media_type == 'external_video'
+    assign pswp_video_host = media.host
+    assign pswp_video_id = media.external_id
+  endif
 -%}
 
 {%- capture sizes -%}
@@ -115,6 +135,23 @@
       data-pswp-thumb="{{ media.preview_image | image_url: width: 120 }}"
       data-pswp-width="{{ media.preview_image.width }}"
       data-pswp-height="{{ media.preview_image.height }}"
+      aria-label="{{ 'products.product.media.open_media' | t: index: position }}"
+    >
+      {{ media_content }}
+    </a>
+  {%- elsif media.media_type == 'video' or media.media_type == 'external_video' -%}
+    <a
+      class="product__modal-opener product__modal-opener--{{ media.media_type }} pswp-item"
+      href="{% if pswp_video_src != blank %}{{ pswp_video_src | escape }}{% else %}{{ media.preview_image | image_url: width: 3000 }}{% endif %}"
+      data-pswp-type="video"
+      data-pswp-thumb="{{ media.preview_image | image_url: width: 120 }}"
+      data-pswp-width="{{ media.preview_image.width }}"
+      data-pswp-height="{{ media.preview_image.height }}"
+      data-pswp-video-src="{{ pswp_video_src | escape }}"
+      data-pswp-video-mime="{{ pswp_video_mime | escape }}"
+      data-pswp-video-host="{{ pswp_video_host | escape }}"
+      data-pswp-video-id="{{ pswp_video_id | escape }}"
+      data-pswp-video-loop="{{ loop | default: false }}"
       aria-label="{{ 'products.product.media.open_media' | t: index: position }}"
     >
       {{ media_content }}
