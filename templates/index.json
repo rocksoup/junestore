@@ -197,8 +197,8 @@
         "column1": {
           "type": "column",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "title": "Designer-led",
+            "text": "<p>Every detail considered, every seam purposeful</p>",
             "link_label": "",
             "link": ""
           }
@@ -206,8 +206,8 @@
         "column2": {
           "type": "column",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "title": "Small-batch production",
+            "text": "<p>Quality over quantity, always</p>",
             "link_label": "",
             "link": ""
           }
@@ -215,8 +215,8 @@
         "column3": {
           "type": "column",
           "settings": {
-            "title": "Column",
-            "text": "<p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>",
+            "title": "Local roots",
+            "text": "<p>Proudly made in the Pacific Northwest</p>",
             "link_label": "",
             "link": ""
           }

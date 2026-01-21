@@ -2,15 +2,51 @@
 
 Custom Shopify theme for June Lingerie, built on Dawn theme foundation.
 
+## June Lingerie Development Standards
+
+**Philosophy: Platform-Native First**
+We build *with* the platform, not against it. The Shopify Theme Editor (Admin UI) must effectively control the site's design.
+
+### 1. Settings Drive Code
+- **Colors:** NEVER hardcode HEX values in CSS.
+  - ✅ DO: Use `rgb(var(--color-button))` or `settings.color_schemes`.
+  - ❌ DON'T: Use `#F7F2ED` or `var(--june-cream)`.
+  - **Why:** Ensures the Merchant can change colors in the Editor without code deployment.
+- **Typography:** Map custom CSS to Theme Settings where possible.
+  - Our `june-custom.css` is a "Thin Client" that consumes native variables.
+
+### 2. CSS Workflow (`assets/june-custom.css`)
+- Use this file for **Skinning** (Border Radius, Shadows, Layout tweaks) and **Typography** application.
+- Do NOT use it for Colors unless you are consuming a `--color-*` variable.
+- Avoid `!important` unless strictly fighting a specific Dawn override that cannot be configured.
+
+### 4. Content & Assets
+- **Content:** NEVER hardcode text in Liquid templates.
+  - ✅ DO: Use `{{ section.settings.heading }}` or Translation keys `{{ 'general.text' | t }}`.
+  - ❌ DON'T: Hardcode "Welcome to June Lingerie" in H1 tags.
+  - **Why:** Allows merchants to update copy without code changes.
+- **Assets:** Always use Shopify's asset filters.
+  - ✅ DO: `{{ 'my-image.jpg' | asset_url }}`
+  - ❌ DON'T: `/assets/my-image.jpg`
+
+### 3. Pre-Commit Checklist
+Before committing ANY visual change:
+1.  [ ] **Editor Check:** Can I change the color of this element in the Theme Editor?
+2.  [ ] **Native Check:** Did I add a new hardcoded static value that should be a Liquid setting?
+3.  [ ] **Visual Check:** Does it look "Playful & Pretty" (Design System aligned)?
+
+---
+
 ## Quick Start - Development Server
 
 To start the local development server with hot reload:
 
 ```bash
-shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
+shopify theme dev --store june-lingerie-2.myshopify.com
 ```
 
-This will start the server at http://127.0.0.1:9292 with live reloading for CSS and sections.
+This will start the server at http://127.0.0.1:9292.
+**Note:** Ensure you have `shopify-cli` installed.
 
 ## MCP Servers
 
