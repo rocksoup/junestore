@@ -278,6 +278,14 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%}
+      June Lingerie Custom Styling
+      Design System: https://rocksoup.github.io/junestore/design-system/
+      Extends Dawn theme with brand-specific colors, typography, and components
+    {%- endcomment -%}
+    {{ 'june-custom.css' | asset_url | stylesheet_tag }}
+
     {%- if request.page_type == 'product' -%}
       {{ 'photoswipe.css' | asset_url | stylesheet_tag }}
       {{ 'photoswipe-theme.css' | asset_url | stylesheet_tag }}

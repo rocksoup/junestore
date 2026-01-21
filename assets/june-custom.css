@@ -1,0 +1,514 @@
+/**
+ * June Lingerie - Custom Theme Styling
+ * Design System: https://rocksoup.github.io/junestore/design-system/
+ * 
+ * This file contains custom styling that extends Dawn theme defaults
+ * with June Lingerie's brand identity. All design tokens are defined
+ * as CSS custom properties for easy maintenance and consistency.
+ */
+
+/* ========================================================================
+   DESIGN TOKENS - CSS CUSTOM PROPERTIES
+   ======================================================================== */
+
+:root {
+  /* ====================================
+     COLOR PALETTE - Warm Boutique
+     ==================================== */
+
+  /* Brand Colors */
+  --june-color-cream: #f7f2ed;
+  --june-color-rose-coral: #e78c8c;
+  --june-color-mint: #a8d5c2;
+  --june-color-gold: #f2d5a2;
+  --june-color-ink: #1b1e2b;
+  --june-color-white: #ffffff;
+
+  /* Semantic Colors */
+  --june-color-primary: var(--june-color-rose-coral);
+  --june-color-secondary: var(--june-color-mint);
+  --june-color-accent: var(--june-color-gold);
+  --june-color-background: var(--june-color-cream);
+  --june-color-surface: var(--june-color-white);
+  --june-color-text: var(--june-color-ink);
+  --june-color-text-muted: #6b6f7a;
+
+  /* Product Line Colors */
+  --june-color-jade-primary: #a8d5c2;
+  --june-color-jade-accent: #8b2e3a;
+  --june-color-noir: #1b1e2b;
+  --june-color-poppy: #e78c8c;
+  --june-color-pearl: #f7f2ed;
+
+  /* ====================================
+     TYPOGRAPHY
+     ==================================== */
+
+  /* Font Families */
+  --june-font-serif: 'Fraunces', 'Cormorant', Georgia, serif;
+  --june-font-sans: 'Inter', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --june-font-mono: 'SF Mono', Monaco, 'Courier New', monospace;
+
+  /* Font Sizes */
+  --june-text-xs: 0.75rem; /* 12px */
+  --june-text-sm: 0.875rem; /* 14px */
+  --june-text-base: 1rem; /* 16px */
+  --june-text-lg: 1.125rem; /* 18px */
+  --june-text-xl: 1.25rem; /* 20px */
+  --june-text-2xl: 1.5rem; /* 24px */
+  --june-text-3xl: 1.875rem; /* 30px */
+  --june-text-4xl: 2.25rem; /* 36px */
+  --june-text-5xl: 3rem; /* 48px */
+
+  /* Font Weights */
+  --june-weight-normal: 400;
+  --june-weight-medium: 500;
+  --june-weight-semibold: 600;
+  --june-weight-bold: 700;
+
+  /* Line Heights */
+  --june-leading-tight: 1.2;
+  --june-leading-normal: 1.5;
+  --june-leading-relaxed: 1.75;
+
+  /* ====================================
+     SPACING SCALE (4px base)
+     ==================================== */
+
+  --june-space-1: 0.25rem; /* 4px */
+  --june-space-2: 0.5rem; /* 8px */
+  --june-space-3: 0.75rem; /* 12px */
+  --june-space-4: 1rem; /* 16px */
+  --june-space-5: 1.25rem; /* 20px */
+  --june-space-6: 1.5rem; /* 24px */
+  --june-space-8: 2rem; /* 32px */
+  --june-space-10: 2.5rem; /* 40px */
+  --june-space-12: 3rem; /* 48px */
+  --june-space-16: 4rem; /* 64px */
+  --june-space-20: 5rem; /* 80px */
+
+  /* ====================================
+     BORDER RADIUS
+     ==================================== */
+
+  --june-radius-sm: 0.25rem; /* 4px */
+  --june-radius-md: 0.5rem; /* 8px */
+  --june-radius-lg: 1rem; /* 16px */
+  --june-radius-full: 9999px;
+
+  /* ====================================
+     SHADOWS
+     ==================================== */
+
+  --june-shadow-sm: 0 1px 2px 0 rgba(27, 30, 43, 0.05);
+  --june-shadow-md: 0 4px 6px -1px rgba(27, 30, 43, 0.1);
+  --june-shadow-lg: 0 10px 15px -3px rgba(27, 30, 43, 0.1);
+  --june-shadow-xl: 0 20px 25px -5px rgba(27, 30, 43, 0.1);
+
+  /* ====================================
+     TRANSITIONS
+     ==================================== */
+
+  --june-transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --june-transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  --june-transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================================================
+   BASE OVERRIDES - Extend Dawn with June brand
+   ======================================================================== */
+
+body {
+  font-family: var(--june-font-sans);
+  color: var(--june-color-text);
+  background-color: var(--june-color-background);
+}
+
+/* Typography - Use serif for headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--june-font-serif);
+  font-weight: var(--june-weight-semibold);
+  line-height: var(--june-leading-tight);
+  color: var(--june-color-text);
+}
+
+h1 {
+  font-size: var(--june-text-5xl);
+}
+h2 {
+  font-size: var(--june-text-4xl);
+}
+h3 {
+  font-size: var(--june-text-3xl);
+}
+h4 {
+  font-size: var(--june-text-2xl);
+}
+h5 {
+  font-size: var(--june-text-xl);
+}
+h6 {
+  font-size: var(--june-text-lg);
+}
+
+/* ========================================================================
+   BUTTON COMPONENTS - Override Dawn button styles
+   ======================================================================== */
+
+.button,
+button[type='submit'],
+.shopify-payment-button__button,
+.recipient-form__submit {
+  font-family: var(--june-font-sans);
+  font-weight: var(--june-weight-semibold);
+  border-radius: var(--june-radius-md);
+  transition: all var(--june-transition-base);
+  padding: var(--june-space-3) var(--june-space-6);
+}
+
+/* Primary Buttons */
+.button--primary,
+button[type='submit']:not([class*='button--']),
+.shopify-payment-button__button--unbranded {
+  background-color: var(--june-color-primary);
+  color: var(--june-color-white);
+  border: 2px solid transparent;
+}
+
+.button--primary:hover,
+button[type='submit']:hover {
+  background-color: #d67373;
+  transform: translateY(-2px);
+  box-shadow: var(--june-shadow-lg);
+}
+
+/* Secondary Buttons */
+.button--secondary {
+  background-color: var(--june-color-secondary);
+  color: var(--june-color-ink);
+  border: 2px solid transparent;
+}
+
+.button--secondary:hover {
+  background-color: #92c4af;
+  transform: translateY(-2px);
+  box-shadow: var(--june-shadow-lg);
+}
+
+/* Tertiary/Outline Buttons */
+.button--tertiary {
+  background-color: transparent;
+  color: var(--june-color-primary);
+  border: 2px solid var(--june-color-primary);
+}
+
+.button--tertiary:hover {
+  background-color: var(--june-color-primary);
+  color: var(--june-color-white);
+}
+
+/* ========================================================================
+   PRODUCT CARDS - Collection page styling
+   ======================================================================== */
+
+.card {
+  background: var(--june-color-surface);
+  border-radius: var(--june-radius-lg);
+  overflow: hidden;
+  transition: all var(--june-transition-base);
+  box-shadow: var(--june-shadow-sm);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--june-shadow-xl);
+}
+
+.card__inner {
+  border-radius: var(--june-radius-lg);
+}
+
+.card__heading {
+  font-family: var(--june-font-serif);
+  font-size: var(--june-text-lg);
+  font-weight: var(--june-weight-semibold);
+  color: var(--june-color-text);
+}
+
+.card__information {
+  padding: var(--june-space-5);
+}
+
+.price {
+  font-family: var(--june-font-serif);
+  font-weight: var(--june-weight-bold);
+  color: var(--june-color-text);
+}
+
+/* ========================================================================
+   PRODUCT PAGE - Main product styling
+   ======================================================================== */
+
+.product__title {
+  font-family: var(--june-font-serif);
+  font-size: var(--june-text-4xl);
+  font-weight: var(--june-weight-semibold);
+  color: var(--june-color-text);
+  margin-bottom: var(--june-space-4);
+}
+
+.product__text {
+  font-size: var(--june-text-lg);
+  line-height: var(--june-leading-relaxed);
+  color: var(--june-color-text-muted);
+}
+
+/* Variant Picker */
+.product-form__input {
+  border-radius: var(--june-radius-md);
+  border-color: rgba(27, 30, 43, 0.2);
+  transition: border-color var(--june-transition-fast);
+}
+
+.product-form__input:hover {
+  border-color: var(--june-color-primary);
+}
+
+.product-form__input:focus {
+  border-color: var(--june-color-primary);
+  box-shadow: 0 0 0 3px rgba(231, 140, 140, 0.1);
+}
+
+/* ========================================================================
+   HEADER & NAVIGATION
+   ======================================================================== */
+
+.header {
+  background-color: var(--june-color-surface);
+  box-shadow: var(--june-shadow-sm);
+}
+
+.header__heading-link {
+  font-family: var(--june-font-serif);
+  font-weight: var(--june-weight-semibold);
+  color: var(--june-color-text);
+}
+
+.header__menu-item {
+  font-family: var(--june-font-sans);
+  font-weight: var(--june-weight-medium);
+  color: var(--june-color-text-muted);
+  transition: color var(--june-transition-fast);
+}
+
+.header__menu-item:hover {
+  color: var(--june-color-primary);
+}
+
+/* ========================================================================
+   FOOTER
+   ======================================================================== */
+
+.footer {
+  background-color: var(--june-color-surface);
+  border-top: 1px solid rgba(27, 30, 43, 0.08);
+  padding: var(--june-space-12) 0;
+}
+
+.footer__heading {
+  font-family: var(--june-font-serif);
+  font-weight: var(--june-weight-semibold);
+  color: var(--june-color-text);
+}
+
+.footer__list-social a {
+  transition: color var(--june-transition-fast);
+}
+
+.footer__list-social a:hover {
+  color: var(--june-color-primary);
+}
+
+/* ========================================================================
+   COLLECTION FILTERS & FACETS
+   ======================================================================== */
+
+.facets__summary {
+  border-radius: var(--june-radius-md);
+  background-color: var(--june-color-surface);
+  border: 1px solid rgba(27, 30, 43, 0.1);
+  transition: border-color var(--june-transition-fast);
+}
+
+.facets__summary:hover {
+  border-color: var(--june-color-primary);
+}
+
+.active-facets__button {
+  background-color: var(--june-color-cream);
+  border-radius: var(--june-radius-full);
+  font-size: var(--june-text-sm);
+  font-weight: var(--june-weight-medium);
+  color: var(--june-color-text);
+  padding: var(--june-space-2) var(--june-space-4);
+}
+
+/* ========================================================================
+   NEWSLETTER SIGNUP
+   ======================================================================== */
+
+.newsletter-form__field-wrapper {
+  border-radius: var(--june-radius-md);
+  overflow: hidden;
+}
+
+.newsletter-form__button {
+  background-color: var(--june-color-primary);
+  color: var(--june-color-white);
+  font-weight: var(--june-weight-semibold);
+  transition: all var(--june-transition-base);
+}
+
+.newsletter-form__button:hover {
+  background-color: #d67373;
+}
+
+/* ========================================================================
+   BADGES & LABELS
+   ======================================================================== */
+
+.badge {
+  background-color: var(--june-color-primary);
+  color: var(--june-color-white);
+  padding: var(--june-space-1) var(--june-space-3);
+  border-radius: var(--june-radius-full);
+  font-size: var(--june-text-xs);
+  font-weight: var(--june-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge--sale {
+  background-color: var(--june-color-poppy);
+}
+
+.badge--new {
+  background-color: var(--june-color-mint);
+  color: var(--june-color-ink);
+}
+
+.badge--sold-out {
+  background-color: var(--june-color-text-muted);
+}
+
+/* ========================================================================
+   FORMS & INPUTS
+   ======================================================================== */
+
+input[type='text'],
+input[type='email'],
+input[type='tel'],
+input[type='password'],
+select,
+textarea {
+  border-radius: var(--june-radius-md);
+  border: 1px solid rgba(27, 30, 43, 0.2);
+  font-family: var(--june-font-sans);
+  transition: all var(--june-transition-fast);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--june-color-primary);
+  box-shadow: 0 0 0 3px rgba(231, 140, 140, 0.1);
+}
+
+/* ========================================================================
+   MODALS & DRAWERS
+   ======================================================================== */
+
+.modal__content,
+.drawer {
+  background-color: var(--june-color-surface);
+  border-radius: var(--june-radius-lg);
+  box-shadow: var(--june-shadow-xl);
+}
+
+.modal__close-button {
+  transition: color var(--june-transition-fast);
+}
+
+.modal__close-button:hover {
+  color: var(--june-color-primary);
+}
+
+/* ========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ======================================================================== */
+
+@media screen and (max-width: 749px) {
+  h1 {
+    font-size: var(--june-text-3xl);
+  }
+  h2 {
+    font-size: var(--june-text-2xl);
+  }
+  h3 {
+    font-size: var(--june-text-xl);
+  }
+
+  .product__title {
+    font-size: var(--june-text-3xl);
+  }
+}
+
+/* ========================================================================
+   UTILITY CLASSES
+   ======================================================================== */
+
+.june-serif {
+  font-family: var(--june-font-serif);
+}
+.june-sans {
+  font-family: var(--june-font-sans);
+}
+.june-mono {
+  font-family: var(--june-font-mono);
+}
+
+.june-text-primary {
+  color: var(--june-color-primary);
+}
+.june-text-secondary {
+  color: var(--june-color-secondary);
+}
+.june-text-accent {
+  color: var(--june-color-accent);
+}
+
+.june-bg-cream {
+  background-color: var(--june-color-cream);
+}
+.june-bg-surface {
+  background-color: var(--june-color-surface);
+}
+
+/* Playful & Pretty brand voice helpers */
+.june-playful {
+  font-family: var(--june-font-serif);
+  color: var(--june-color-primary);
+  font-weight: var(--june-weight-semibold);
+}
+
+.june-boutique {
+  background: var(--june-color-cream);
+  padding: var(--june-space-8);
+  border-radius: var(--june-radius-lg);
+}
