@@ -147,3 +147,93 @@ textarea {
   font-family: var(--june-font-serif);
   font-style: italic; 
 }
+
+/* ========================================================================
+   LOGO ANIMATION & STYLES (Ported from Landing Page)
+   ======================================================================== */
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+}
+
+/* Container sizing for the SVG */
+.header__heading-logo-wrapper.custom-logo {
+  width: 200px;
+  height: 200px;
+  flex-shrink: 0;
+  margin-top: 40px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header__heading-logo-wrapper.custom-logo svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Default colors */
+.logo-stroke-main {
+  stroke: rgb(var(--color-foreground));
+}
+.logo-fill-main {
+  fill: rgb(var(--color-foreground));
+}
+
+.logo-emblem,
+.logo-wordmark {
+  transform-origin: center;
+  transform-box: fill-box;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.heart {
+  transition: fill 0.3s ease;
+}
+
+/* Hover Effects */
+.header__heading-link:hover .logo-wrapper .custom-logo,
+.header__heading-link:hover .custom-logo {
+  transform: scale(1.05);
+}
+
+.header__heading-link:hover .heart {
+  fill: #E78C8C; /* Rose color from landing page */
+}
+
+/* Scrolled State (Sticky Header) */
+.scrolled-past-header .header__heading-logo-wrapper.custom-logo {
+  width: 160px;
+  height: 120px;
+  margin-top: 0;
+}
+
+.scrolled-past-header .logo-emblem {
+  opacity: 0;
+  transform: scale(0.85);
+}
+
+.scrolled-past-header .logo-wordmark {
+  transform: translateY(-100px) scale(3);
+}
+
+/* Mobile adjustments if necessary */
+@media screen and (max-width: 768px) {
+  .header__heading-logo-wrapper.custom-logo {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+  }
+  
+  .scrolled-past-header .header__heading-logo-wrapper.custom-logo {
+    width: 80px;
+    height: 60px;
+  }
+  
+  .scrolled-past-header .logo-wordmark {
+    transform: translateY(-60px) scale(2);
+  }
+}
