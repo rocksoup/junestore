@@ -132,6 +132,65 @@
         "padding_bottom": 36
       }
     },
+    "instagram_grid_X8nftP": {
+      "type": "instagram-grid",
+      "blocks": {
+        "image_4JpABR": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram1.jpg",
+            "link": "https://www.instagram.com/junelingerie2022",
+            "alt_text": "June Lingerie Prototype"
+          }
+        },
+        "image_DJHrNY": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram3.jpg",
+            "link": "https://www.instagram.com/junelingerie2022",
+            "alt_text": "June Lingerie Production"
+          }
+        },
+        "image_tRpkDa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram2.jpg",
+            "link": "https://www.instagram.com/junelingerie2022",
+            "alt_text": "June Lingerie Production"
+          }
+        },
+        "image_aCNm6f": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/Instagram4.jpg",
+            "link": "https://www.instagram.com/junelingerie2022",
+            "alt_text": "June Lingerie Production"
+          }
+        }
+      },
+      "block_order": [
+        "image_4JpABR",
+        "image_DJHrNY",
+        "image_tRpkDa",
+        "image_aCNm6f"
+      ],
+      "name": "Instagram grid",
+      "settings": {
+        "kicker": "Follow along",
+        "title": "Follow on Instagram",
+        "heading_size": "h1",
+        "text": "<p>Little moments, new drops, and behind-the-scenes.</p>",
+        "account_handle": "",
+        "account_url": "https://www.instagram.com/junelingerie2022",
+        "button_label": "Follow on Instagram",
+        "button_style": "primary",
+        "columns_desktop": 4,
+        "columns_mobile": "2",
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "multicolumn": {
       "type": "multicolumn",
       "blocks": {
@@ -191,6 +250,7 @@
     "rich_text",
     "featured_collection",
     "featured_blog",
+    "instagram_grid_X8nftP",
     "multicolumn"
   ]
 }
