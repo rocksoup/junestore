@@ -41,6 +41,7 @@ Before committing ANY visual change:
 
 *   **Source URL (Admin/API):** `https://june-lingerie-2.myshopify.com/`
 *   **Public URL:** `https://junelingerie.com`
+*   **Production Theme ID:** `139703812209` (June Lingerie - Dawn)
 
 ## Quick Start - Development Server
 
