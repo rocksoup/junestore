@@ -118,41 +118,60 @@
    BASE OVERRIDES - Extend Dawn with June brand
    ======================================================================== */
 
-body {
-  font-family: var(--june-font-sans);
-  color: var(--june-color-text);
-  background-color: var(--june-color-background);
+/* Background - Override Dawn's gradient and color scheme backgrounds */
+body,
+body.gradient,
+.color-background-1,
+.shopify-section {
+  font-family: var(--june-font-sans) !important;
+  color: var(--june-color-text) !important;
+  background-color: var(--june-color-background) !important;
+  background-image: none !important;
 }
 
-/* Typography - Use serif for headings */
+/* Typography - Use serif for headings with high specificity for Dawn classes */
 h1,
 h2,
 h3,
 h4,
 h5,
-h6 {
-  font-family: var(--june-font-serif);
+h6,
+.h1,
+.h2,
+.banner__heading,
+.rich-text__heading,
+.section-heading,
+.title--primary {
+  font-family: var(--june-font-serif) !important;
   font-weight: var(--june-weight-semibold);
   line-height: var(--june-leading-tight);
   color: var(--june-color-text);
 }
 
-h1 {
+h1,
+.h1 {
   font-size: var(--june-text-5xl);
 }
-h2 {
+h2,
+.h2,
+.banner__heading,
+.rich-text__heading {
   font-size: var(--june-text-4xl);
 }
-h3 {
+h3,
+.h3 {
   font-size: var(--june-text-3xl);
 }
-h4 {
+h4,
+.h4 {
   font-size: var(--june-text-2xl);
 }
-h5 {
+h5,
+.h5 {
   font-size: var(--june-text-xl);
 }
-h6 {
+h6,
+.h6 {
   font-size: var(--june-text-lg);
 }
 
