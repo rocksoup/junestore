@@ -105,8 +105,9 @@
     "badge_corner_radius": 40,
     "sale_badge_color_scheme": "scheme-5",
     "sold_out_badge_color_scheme": "scheme-3",
+    "brand_image": "shopify://shop_images/Instagram4.jpg",
     "social_facebook_link": "",
-    "social_instagram_link": "",
+    "social_instagram_link": "https://www.instagram.com/junelingerie2022",
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",
@@ -140,57 +141,57 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#ffffff",
+          "background": "#F7F2ED",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#ffffff",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#1B1E2B",
+          "button": "#E78C8C",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#1B1E2B",
+          "shadow": "#1B1E2B"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#f3f3f3",
+          "background": "#A8D5C2",
           "background_gradient": "",
-          "text": "#121212",
-          "button": "#121212",
-          "button_label": "#f3f3f3",
-          "secondary_button_label": "#121212",
-          "shadow": "#121212"
+          "text": "#1B1E2B",
+          "button": "#1B1E2B",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#1B1E2B",
+          "shadow": "#1B1E2B"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#242833",
+          "background": "#1B1E2B",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#000000",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#FFFFFF",
+          "button": "#FFFFFF",
+          "button_label": "#1B1E2B",
+          "secondary_button_label": "#FFFFFF",
+          "shadow": "#1B1E2B"
         }
       },
       "scheme-4": {
         "settings": {
-          "background": "#121212",
+          "background": "#E78C8C",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#121212",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#1B1E2B",
+          "button": "#FFFFFF",
+          "button_label": "#E78C8C",
+          "secondary_button_label": "#1B1E2B",
+          "shadow": "#1B1E2B"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#334fb4",
+          "background": "#F2D5A2",
           "background_gradient": "",
-          "text": "#ffffff",
-          "button": "#ffffff",
-          "button_label": "#334fb4",
-          "secondary_button_label": "#ffffff",
-          "shadow": "#121212"
+          "text": "#1B1E2B",
+          "button": "#1B1E2B",
+          "button_label": "#FFFFFF",
+          "secondary_button_label": "#1B1E2B",
+          "shadow": "#1B1E2B"
         }
       }
     }
