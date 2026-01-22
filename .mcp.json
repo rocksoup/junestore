@@ -7,7 +7,7 @@
         "chrome-devtools-mcp@latest"
       ],
       "env": {},
-      "disabled": false
+      "disabled": true
     },
     "shopify-dev-mcp": {
       "type": "stdio",

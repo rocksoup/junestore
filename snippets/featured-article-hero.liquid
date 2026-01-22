@@ -1,0 +1,57 @@
+{% comment %}
+  Snippet: Featured Article Hero
+  Description: Renders the featured article in a horizontal card layout (Image Left, Content Right).
+  Usage: {% render 'featured-article-hero', article: section.settings.featured_article %}
+{% endcomment %}
+
+{%- if article != blank -%}
+  <div class="featured-hero-card">
+    <a href="{{ article.url }}" class="featured-hero-link">
+      <!-- Image Column -->
+      <div class="featured-hero-image-wrapper">
+        {%- if article.image -%}
+          {{
+            article.image
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              sizes: '(min-width: 990px) 50vw, 100vw',
+              widths: '375, 550, 750, 1100, 1500',
+              class: 'featured-hero-image'
+          }}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+        {%- endif -%}
+      </div>
+
+      <!-- Content Column -->
+      <div class="featured-hero-content">
+        <div class="featured-hero-meta">
+          {%- if article.tags.size > 0 -%}
+            <span class="featured-hero-tag">{{ article.tags.first }}</span>
+          {%- else -%}
+            <span class="featured-hero-tag">Core</span>
+          {%- endif -%}
+          <span class="featured-hero-date">{{ article.published_at | time_tag: format: 'date' }}</span>
+        </div>
+
+        <h2 class="featured-hero-title">{{ article.title }}</h2>
+
+        {%- if article.excerpt.size > 0 -%}
+          <p class="featured-hero-deck">{{ article.excerpt }}</p>
+        {%- else -%}
+          <p class="featured-hero-deck">{{ article.content | strip_html | truncatewords: 30 }}</p>
+        {%- endif -%}
+
+        <div class="featured-hero-cta">
+          <span>Read Article</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+{%- endif -%}

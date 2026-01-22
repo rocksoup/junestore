@@ -1,6 +1,7 @@
 {{ 'component-article-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+{{ 'june-blog-editorial.css' | asset_url | stylesheet_tag }}
 
 {%- style -%}
   .section-{{ section.id }}-padding {
@@ -22,8 +23,16 @@
       {{ blog.title | escape }}
     </h1>
 
+    {%- if section.settings.show_featured_article and blog.articles.size > 0 -%}
+      {%- assign featured_article = section.settings.featured_article | default: blog.articles.first -%}
+      {%- render 'featured-article-hero', article: featured_article -%}
+    {%- endif -%}
+
     <div class="blog-articles {% if section.settings.layout == 'collage' %}blog-articles--collage{% endif %}">
       {%- for article in blog.articles -%}
+        {%- if section.settings.show_featured_article and article.id == featured_article.id -%}
+          {%- continue -%}
+        {%- endif -%}
         <div
           class="blog-articles__article article{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
           {% if settings.animations_reveal_on_scroll %}
@@ -56,6 +65,18 @@
   "tag": "section",
   "class": "section",
   "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_featured_article",
+      "default": true,
+      "label": "Show featured article"
+    },
+    {
+      "type": "article",
+      "id": "featured_article",
+      "label": "Featured article",
+      "info": "Leave empty to auto-select the latest article"
+    },
     {
       "type": "select",
       "id": "layout",
