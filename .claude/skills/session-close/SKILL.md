@@ -103,3 +103,17 @@ After successful session close, report:
 - Running this at the end of every session ensures no work is lost
 - The optional deployment step provides a convenient path to make changes live
 - If you're unsure whether to deploy, choose "no" and ask Jared
+
+## Codex Compatibility (TODO)
+
+**Current State:** This skill works with Claude Code only (`.claude/skills/` directory).
+
+**Future Requirement:** This workflow needs to be adapted for Codex skills to ensure all AI agents working on this project can use the session close protocol.
+
+**What needs to be done:**
+1. Create Codex-compatible skill version in `skills/` directory
+2. Ensure the core script (`.claude/skills/session-close/session-close.sh`) remains the shared implementation
+3. Test that both Claude Code and Codex can execute the workflow
+4. Update documentation to reflect both skill systems
+
+**Why this matters:** Multiple AI agents from different companies may work on this codebase. The session close protocol must be accessible to all agents regardless of their platform.

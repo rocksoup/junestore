@@ -293,11 +293,13 @@ YOU MUST follow this debugging framework for ANY technical issue:
 
 ## 🚀 Essential Commands
 
-**Project Skills (Codex):**
-Project-specific skills live in `.claude/skills/`. Available skills:
+**Project Skills:**
+Project-specific skills live in `.claude/skills/` (Claude Code). Available skills:
 - `/sync-from-shopify` - Pull config/template changes from Shopify admin
 - `/deploy-to-shopify` - Deploy to live theme with safety checks
 - `/session-close` - Complete session close protocol
+
+**Note:** These skills currently work with Claude Code only. Codex-compatible versions need to be created in `skills/` directory to ensure all AI agents (regardless of platform) can use the safe Shopify workflow. See docs/SHOPIFY_SYNC_WORKFLOW.md for details.
 
 **Development:**
 ```bash

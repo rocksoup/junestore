@@ -94,3 +94,17 @@ After successful deployment, report:
 - The pre-deployment sync from Shopify is the critical safeguard
 - By syncing immediately before deploying, we minimize the timing window for data loss
 - If you're unsure whether to deploy, ask Jared first
+
+## Codex Compatibility (TODO)
+
+**Current State:** This skill works with Claude Code only (`.claude/skills/` directory).
+
+**Future Requirement:** This workflow needs to be adapted for Codex skills to ensure all AI agents working on this project can use the safe deployment workflow.
+
+**What needs to be done:**
+1. Create Codex-compatible skill version in `skills/` directory
+2. Ensure the core script (`.claude/skills/deploy-to-shopify/deploy-to-shopify.sh`) remains the shared implementation
+3. Test that both Claude Code and Codex can execute the workflow
+4. Update documentation to reflect both skill systems
+
+**Why this matters:** Multiple AI agents from different companies may work on this codebase. The deployment safeguards must be accessible to all agents regardless of their platform.

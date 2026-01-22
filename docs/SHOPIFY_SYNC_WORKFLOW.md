@@ -608,6 +608,33 @@ If this happened, it means:
 - Avoid editing in Shopify admin while a deployment is in progress
 - Run `/sync-from-shopify` more frequently during active admin editing sessions
 
+## Multi-Agent Compatibility (TODO)
+
+**Current State:** The workflow skills (`/sync-from-shopify`, `/deploy-to-shopify`, `/session-close`) work with Claude Code only.
+
+**Future Requirement:** These skills need to be adapted for Codex to ensure all AI agents can use the safe Shopify workflow regardless of platform.
+
+**Architecture:**
+```
+Core Implementation (Agent-Agnostic)
+├── scripts/shopify-sync.sh              ← Shared sync logic
+├── .claude/skills/deploy-to-shopify/deploy-to-shopify.sh  ← Shared deploy logic
+└── .claude/skills/session-close/session-close.sh          ← Shared session close logic
+
+Skill Wrappers (Platform-Specific)
+├── .claude/skills/                      ← Claude Code skills (current)
+└── skills/                              ← Codex skills (TODO)
+```
+
+**What needs to be done:**
+1. Create Codex-compatible versions in `skills/` directory
+2. Test that both Claude Code and Codex agents can execute the workflows
+3. Ensure core bash scripts remain the shared implementation
+4. Document platform differences (if any)
+
+**Why this matters:**
+Multiple AI agents from different companies will work on this project. The deployment safeguards must be enforced for ALL agents, regardless of whether they're using Claude Code, Codex, or other platforms. This prevents accidental data loss when different agents deploy to Shopify.
+
 ## Related Documentation
 
 - **CLAUDE.md** - Development guidelines and project context
