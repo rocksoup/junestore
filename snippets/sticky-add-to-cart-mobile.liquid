@@ -14,14 +14,10 @@
 
   Parameters:
   - product: {Object} Product Liquid object (required)
-  - product_form_id: {String} ID of the product form to submit (required)
-  - section_id: {String} Section ID for unique element IDs (required)
 
   Usage:
   {% render 'sticky-add-to-cart-mobile',
-    product: product,
-    product_form_id: product_form_id,
-    section_id: section.id
+    product: product
   %}
 {% enddoc %}
 
@@ -89,6 +85,11 @@
     transform: translateY(100%);
   }
 {%- endstyle -%}
+
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{%- assign section_id = section.id -%}
+{% comment %}theme-check-enable UndefinedObject{% endcomment %}
+{%- assign product_form_id = 'product-form-' | append: section_id -%}
 
 <div
   class="sticky-add-to-cart-mobile"

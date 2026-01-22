@@ -4,7 +4,7 @@
 
   Accepts:
   - product: {Object} Product object (required)
-  - section_id: {String} Section ID for unique element IDs (required)
+  - section_id: {String} Section ID for unique element IDs (optional; defaults to section.id)
 
   Usage:
   {% render 'product-metafields', product: product, section_id: section.id %}
@@ -18,6 +18,10 @@
 
   Each metafield section only displays if the metafield contains data.
 {% enddoc %}
+
+{% comment %}theme-check-disable UndefinedObject{% endcomment %}
+{%- assign section_id = section.id -%}
+{% comment %}theme-check-enable UndefinedObject{% endcomment %}
 
 {%- liquid
   assign fabric_content = product.metafields.custom.fabric_content
