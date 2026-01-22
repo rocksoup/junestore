@@ -34,6 +34,7 @@ Before committing ANY visual change:
 1.  [ ] **Editor Check:** Can I change the color of this element in the Theme Editor?
 2.  [ ] **Native Check:** Did I add a new hardcoded static value that should be a Liquid setting?
 3.  [ ] **Visual Check:** Does it look "Playful & Pretty" (Design System aligned)?
+4.  [ ] **Shopify Pull Guard:** Before any `/sync-from-shopify` or `shopify theme pull`, snapshot local changes (commit tracked, stash untracked).
 
 ---
 
