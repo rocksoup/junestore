@@ -1,0 +1,56 @@
+{% comment %}
+  Snippet: Article Card (Editorial Photo-First)
+  Description: Renders a clean, editorial-style article card with 4:5 aspect ratio image.
+
+  Accepts:
+  - article: {Object} Article object
+  - show_excerpt: {Boolean} Show article excerpt (default: true)
+  - lazy_load: {Boolean} Lazy load image (default: true)
+
+  Usage:
+  {% render 'article-card-editorial', article: article %}
+{% endcomment %}
+
+{%- if article and article != blank -%}
+  <a href="{{ article.url }}" class="article-card">
+    {%- if article.image -%}
+      <div class="article-card__image-container">
+        {{
+          article.image
+          | image_url: width: 800
+          | image_tag:
+            loading: lazy_load,
+            sizes: '(min-width: 1200px) 300px, (min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+            widths: '165, 360, 535, 750, 1000',
+            class: 'article-card__image',
+            alt: article.image.alt
+          | default: article.title
+        }}
+      </div>
+    {%- else -%}
+      <div class="article-card__image-container">
+        {{ 'image' | placeholder_svg_tag: 'article-card__image' }}
+      </div>
+    {%- endif -%}
+
+    <div class="article-card__body">
+      <h3 class="article-card__title">{{ article.title }}</h3>
+
+      {%- if show_excerpt != false -%}
+        {%- if article.excerpt.size > 0 -%}
+          <p class="article-card__excerpt">{{ article.excerpt | strip_html }}</p>
+        {%- elsif article.content.size > 0 -%}
+          <p class="article-card__excerpt">{{ article.content | strip_html | truncatewords: 25 }}</p>
+        {%- endif -%}
+      {%- endif -%}
+
+      <div class="article-card__cta">
+        <span>Read Article</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+  </a>
+{%- endif -%}

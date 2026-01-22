@@ -27,15 +27,6 @@
 
       <!-- Content Column -->
       <div class="featured-hero-content">
-        <div class="featured-hero-meta">
-          {%- if article.tags.size > 0 -%}
-            <span class="featured-hero-tag">{{ article.tags.first }}</span>
-          {%- else -%}
-            <span class="featured-hero-tag">Core</span>
-          {%- endif -%}
-          <span class="featured-hero-date">{{ article.published_at | time_tag: format: 'date' }}</span>
-        </div>
-
         <h2 class="featured-hero-title">{{ article.title }}</h2>
 
         {%- if article.excerpt.size > 0 -%}
