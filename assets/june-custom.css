@@ -87,19 +87,72 @@ h3, .h3 { font-size: var(--june-text-3xl); }
 
 /* Buttons - Custom Shape, Native Colors */
 .button,
-button[type="submit"],
-.shopify-payment-button__button {
+.button--primary,
+.shopify-payment-button__button,
+.shopify-challenge__button,
+.customer button {
   font-family: var(--june-font-sans);
   font-weight: 600;
   border-radius: var(--june-radius-md);
-  transition: all var(--june-transition-base);
-  letter-spacing: 0.02em;
-  /* Background/Text colors are handled by Dawn's .button class using scheme settings */
+  transition: transform var(--june-transition-base),
+    box-shadow var(--june-transition-base),
+    background-color var(--june-transition-base),
+    color var(--june-transition-base),
+    border-color var(--june-transition-base);
+  letter-spacing: 0.04em;
+  --buttons-radius: var(--june-radius-md);
+  --buttons-radius-outset: var(--june-radius-md);
+  --shadow-opacity: 0;
+  --june-button-bg: linear-gradient(
+    135deg,
+    rgba(var(--color-button), 1),
+    rgba(var(--color-button), 0.88)
+  );
+  --june-button-hover-bg: linear-gradient(
+    135deg,
+    rgba(var(--color-button), 1),
+    rgba(var(--color-button), 0.78)
+  );
+  background: var(--june-button-bg);
+  box-shadow: var(--june-shadow-sm);
 }
 
-.button:hover {
+.button:hover,
+.button--primary:hover,
+.shopify-payment-button__button:hover,
+.shopify-challenge__button:hover,
+.customer button:hover {
   transform: translateY(-2px);
   box-shadow: var(--june-shadow-lg);
+  background: var(--june-button-hover-bg);
+}
+
+.button--secondary {
+  --june-button-bg: linear-gradient(
+    135deg,
+    rgba(var(--color-button), 1),
+    rgba(var(--color-button), 0.9)
+  );
+  --june-button-hover-bg: linear-gradient(
+    135deg,
+    rgba(var(--color-button), 1),
+    rgba(var(--color-button), 0.8)
+  );
+}
+
+.button--tertiary {
+  --color-button: var(--color-foreground);
+  --color-button-text: var(--color-foreground);
+  --alpha-button-background: 0;
+  --buttons-border-opacity: 0.7;
+  --june-button-bg: transparent;
+  --june-button-hover-bg: rgba(var(--color-foreground), 0.06);
+  box-shadow: none;
+}
+
+.button--tertiary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--june-shadow-sm);
 }
 
 /* Product Cards - Custom Shape, Native Colors */
