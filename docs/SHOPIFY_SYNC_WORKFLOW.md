@@ -24,8 +24,8 @@ This document defines the three-way synchronization workflow between:
 - **Git is the source of truth** - All changes must be committed to git
 - **Bidirectional sync** - Changes can happen locally OR in Shopify admin
 - **Main-only branching** - All work happens on main branch (simple workflow)
-- **Manual live deploy is standard** - After `git push`, always run `shopify theme push --live --allow-live`
-- **Never push without pulling admin changes first** - Always run `/sync-from-shopify` (or a manual theme pull) before any push
+- **Use skills for safety** - Use `/deploy-to-shopify` instead of direct Shopify CLI commands
+- **Skills enforce workflow** - `/deploy-to-shopify` automatically syncs from Shopify before deploying to prevent data loss
 
 ## Current Theme Setup
 
@@ -147,32 +147,58 @@ git push
 
 ## Deployment Workflow
 
-### Standard Deployment (Manual Live Push)
+### Standard Deployment (Recommended)
 
-**After pushing to GitHub, always deploy to Live with the Shopify CLI (no confirmation required).**
+**Use the `/deploy-to-shopify` skill which includes built-in safety checks:**
 
 ```bash
-# 1. Pull latest admin edits from Shopify (required before any push)
+# 1. Ensure local changes are committed
+git status  # Should show "nothing to commit"
+
+# 2. Run quality checks (if applicable)
+shopify theme check
+
+# 3. Deploy to Live (skill handles all safety checks)
+/deploy-to-shopify
+```
+
+The `/deploy-to-shopify` skill will:
+1. Check for uncommitted local changes (exits if any found)
+2. Pull latest code from git remote
+3. **Sync from Shopify admin** (critical safety check)
+4. Show any admin changes that would be overwritten
+5. Prompt for review if admin changes detected
+6. Commit admin changes to git before deployment
+7. Deploy to Shopify live theme
+8. Report completion status
+
+This prevents the timing window where admin changes could be overwritten.
+
+### Alternative: Manual Deployment
+
+**Only use this if you need to bypass the skill for some reason:**
+
+```bash
+# 1. Pull latest admin edits from Shopify (CRITICAL - never skip this)
 /sync-from-shopify
 
 # 2. Ensure local changes are committed
 git status  # Should show "nothing to commit"
 
-# 3. Run quality checks (if applicable)
-shopify theme check
-
-# 4. Pull latest from remote (in case someone else pushed)
+# 3. Pull latest from remote
 git pull --rebase
 
-# 5. Push to GitHub
+# 4. Push to GitHub
 git push
 
-# 6. Deploy to Live
+# 5. Deploy to Live
 shopify theme push --live --allow-live
 
-# 7. Verify deployment
+# 6. Verify deployment
 # Visit https://june-lingerie-2.myshopify.com to confirm changes are live
 ```
+
+**WARNING:** Manual deployment is risky because it's easy to forget the sync step. Always prefer using `/deploy-to-shopify`.
 ### Optional: Tag-Based Release Flow
 
 Use this if you want explicit release markers.
@@ -254,34 +280,53 @@ git push
 
 ## Session Close Protocol
 
-**MANDATORY steps before ending work session:**
+### Recommended: Use the `/session-close` Skill
+
+**The `/session-close` skill automates the session close checklist:**
 
 ```bash
-# 1. Pull latest admin edits from Shopify (required before any push)
-/sync-from-shopify
-
-# 2. Verify all work is committed
-git status  # Should show "nothing to commit"
-
-# 3. Update issue tracking
-bd close <id>         # Close completed issues
-bd sync               # Sync beads with git
-
-# 4. Push everything to GitHub
-git pull --rebase     # Get latest changes
-git push              # Push your work
-
-# 5. Deploy to Live
-shopify theme push --live --allow-live
-
-# 6. Verify push succeeded
-git status            # Must show "Your branch is up to date with 'origin/main'"
-
-# 7. Verify deployment
-# Visit https://june-lingerie-2.myshopify.com to confirm changes are live
+/session-close
 ```
 
-**CRITICAL:** Work is NOT complete until `git push` succeeds AND changes are verified on live site.
+The skill will:
+1. Show git status (what changed during session)
+2. Stage code changes (interactive confirmation)
+3. Sync beads issues to git
+4. Commit code changes (prompts for commit message)
+5. Sync beads again (capture any changes from commit hooks)
+6. Push to git remote
+7. **Optional:** Prompt to deploy to Shopify live
+
+This ensures you don't forget any steps in the protocol.
+
+### Alternative: Manual Session Close
+
+**If you need to run the protocol manually:**
+
+```bash
+# 1. Check what changed
+git status
+
+# 2. Stage code changes
+git add <files>
+
+# 3. Sync beads issues
+bd sync
+
+# 4. Commit code
+git commit -m "Descriptive message"
+
+# 5. Sync beads again
+bd sync
+
+# 6. Push to remote
+git push
+
+# 7. Optional: Deploy to Shopify
+/deploy-to-shopify
+```
+
+**CRITICAL:** Work is NOT complete until `git push` succeeds. Deployment to live is optional and can be done later.
 
 ## Emergency Procedures
 
@@ -441,61 +486,134 @@ git push
 
 ## Quick Reference
 
+### Project Skills (Claude Code)
+
+```bash
+# Sync from Shopify admin (start of session)
+/sync-from-shopify
+
+# Deploy to Shopify live (includes safety checks)
+/deploy-to-shopify
+
+# Complete session close protocol
+/session-close
+```
+
 ### Common Commands
 
 ```bash
 # Start local development
 shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
 
-# Pull admin changes (required before any push)
-/sync-from-shopify
+# Pull admin changes (alternative to /sync-from-shopify)
+./scripts/shopify-sync.sh
 
 # Check for theme issues
 shopify theme check
 
-# Deploy to live (manual)
-shopify theme push --live --allow-live
-
 # List themes
 shopify theme list
-
-# Session close (pull admin edits first)
-/sync-from-shopify && git status && bd sync && git pull --rebase && git push && shopify theme push --live --allow-live
 ```
+
+### When to Use Each Skill
+
+| Operation | Skill | When |
+|-----------|-------|------|
+| Start session | `/sync-from-shopify` | First action of each work session |
+| End session | `/session-close` | Before closing Claude Code |
+| Deploy to live | `/deploy-to-shopify` | After commits are pushed to git |
 
 ### Workflow Shortcuts
 
-**Normal development (no admin edits):**
+**Normal development session:**
 ```bash
 # Start work
+/sync-from-shopify
 shopify theme dev &
 bd ready
 
 # Make changes, test, commit frequently
 git add . && git commit -m "Description"
 
-# End session (deploy to live)
-bd sync && git push && shopify theme push --live --allow-live
+# End session
+/session-close
+# (Optionally deploy when prompted)
 ```
 
-**After admin edits:**
+**Deployment only (after session close):**
 ```bash
-# Sync from admin first
-/sync-from-shopify
-
-# Then continue normal development
-shopify theme dev &
-# ... make changes ...
+# Deploy to live with safety checks
+/deploy-to-shopify
 ```
 
 ## Deployment Standard
 
-Manual Live deployment is required after every `git push`. Do not rely on auto-deploys.
+Always use `/deploy-to-shopify` skill which includes automatic safety checks. The skill syncs from Shopify admin immediately before deploying to prevent overwriting admin changes.
+
+## Troubleshooting: If Deployment Overwrites Admin Changes
+
+If data loss occurs despite the safeguards (extremely rare):
+
+### Step 1: Assess the Damage
+
+```bash
+# Check what was overwritten by comparing with Shopify's current state
+shopify theme pull --live --only config/settings_data.json --only templates/*.json
+git diff
+```
+
+### Step 2: Recovery Options
+
+**Option A: Restore from Git History (if admin changes were previously committed)**
+
+```bash
+# 1. Find the commit that had the admin changes
+git log --oneline -10 -- templates/index.json
+
+# 2. View the content at that commit
+git show <commit-hash>:templates/index.json
+
+# 3. Restore the file
+git checkout <commit-hash> -- templates/index.json
+
+# 4. Commit and deploy
+git add templates/index.json
+git commit -m "Restore admin changes that were overwritten"
+/deploy-to-shopify
+```
+
+**Option B: Restore from Shopify Version History**
+
+1. Log into Shopify admin
+2. Navigate to: **Online Store → Themes**
+3. Click on your Live theme → **Actions → Version history**
+4. Find the version before the deployment
+5. Compare changes and manually restore lost sections
+
+**Option C: Manual Recreation**
+
+If the changes were never committed to git and Shopify version history doesn't help:
+1. Manually recreate the lost sections in Shopify admin
+2. Immediately run `/sync-from-shopify` to capture the changes
+3. Document what was lost for future reference
+
+### Step 3: Prevent Future Occurrences
+
+If this happened, it means:
+- Someone edited in Shopify admin during the deployment window (30-second race condition)
+- OR the `/deploy-to-shopify` skill wasn't used (bypassed safeguards)
+
+**Prevention:**
+- Always use `/deploy-to-shopify` skill (never `shopify theme push` directly)
+- Avoid editing in Shopify admin while a deployment is in progress
+- Run `/sync-from-shopify` more frequently during active admin editing sessions
 
 ## Related Documentation
 
 - **CLAUDE.md** - Development guidelines and project context
 - **AGENTS.md** - Issue tracking and session close protocol
-- **scripts/shopify-sync.sh** - Core sync script (agent-agnostic, can be called from any context)
-- **.claude/skills/sync-from-shopify/SKILL.md** - Claude Code skill wrapper that calls the script
+- **scripts/shopify-sync.sh** - Core sync script (agent-agnostic)
+- **.claude/skills/sync-from-shopify/SKILL.md** - Sync from Shopify admin skill
+- **.claude/skills/deploy-to-shopify/SKILL.md** - Deploy to live theme skill (with safety checks)
+- **.claude/skills/session-close/SKILL.md** - Session close protocol automation
 - **README.md** - Quick start and project overview

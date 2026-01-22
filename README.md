@@ -55,6 +55,38 @@ shopify theme dev --store june-lingerie-2.myshopify.com
 This will start the server at http://127.0.0.1:9292.
 **Note:** Ensure you have `shopify-cli` installed.
 
+## Essential Commands
+
+### Project Skills (Claude Code)
+
+```bash
+# Sync from Shopify admin (start of session)
+/sync-from-shopify
+
+# Deploy to Shopify live (includes safety checks)
+/deploy-to-shopify
+
+# Complete session close protocol
+/session-close
+```
+
+### Common Development Commands
+
+```bash
+# Start local dev server
+shopify theme dev --store june-lingerie-2.myshopify.com --store-password june
+
+# Check theme for issues
+shopify theme check
+
+# Issue tracking
+bd list                    # List all issues
+bd ready                   # Show ready-to-work tasks
+bd show <id>               # View issue details
+```
+
+For complete workflow documentation, see [docs/SHOPIFY_SYNC_WORKFLOW.md](docs/SHOPIFY_SYNC_WORKFLOW.md).
+
 ## MCP Servers
 
 This project uses MCP (Model Context Protocol) servers for enhanced development capabilities:

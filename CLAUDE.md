@@ -110,12 +110,13 @@ When asked to do something, just do it - including obvious follow-up actions nee
 - YOU MUST commit frequently throughout the development process, even if your high-level tasks are not yet done. Commit your journal entries.
 - NEVER SKIP, EVADE OR DISABLE A PRE-COMMIT HOOK
 - NEVER use `git add -A` unless you've just done a `git status` - Don't add random test files to the repo.
-- After `git push`, ALWAYS deploy to live with `shopify theme push --live --allow-live` (no confirmation needed).
 
-**Shopify Admin Changes:**
-- Always run `/sync-from-shopify` at the start of each work session to pull admin edits
-- This pulls config/template changes from Shopify theme editor and commits them to git
-- Prevents conflicts between local and admin changes
+**Shopify Workflow:**
+- **Session Start:** Run `/sync-from-shopify` to pull admin edits from Shopify theme editor
+- **Session End:** Run `/session-close` to commit changes, sync beads, and push to git
+- **Deployment:** Run `/deploy-to-shopify` to deploy to live theme (syncs from Shopify first as safeguard)
+- The deployment skill automatically checks for admin changes before deploying to prevent overwriting
+- NEVER use `shopify theme push` directly - always use `/deploy-to-shopify` skill
 
 ## Testing
 
@@ -293,7 +294,10 @@ YOU MUST follow this debugging framework for ANY technical issue:
 ## 🚀 Essential Commands
 
 **Project Skills (Codex):**
-Project-specific Codex skills live in `skills/`. The Shopify sync skill is at `skills/sync-from-shopify/SKILL.md`.
+Project-specific skills live in `.claude/skills/`. Available skills:
+- `/sync-from-shopify` - Pull config/template changes from Shopify admin
+- `/deploy-to-shopify` - Deploy to live theme with safety checks
+- `/session-close` - Complete session close protocol
 
 **Development:**
 ```bash
@@ -310,6 +314,26 @@ Starts local dev server at http://127.0.0.1:9292 with hot reload
 ./scripts/shopify-sync.sh
 ```
 Pulls configuration and template changes from Shopify admin, commits to git, and pushes to remote. Run at start of each session. The script checks for uncommitted changes first - commit your work before running.
+
+**Deploy to Shopify:**
+```bash
+# Option 1: Use Claude Code skill (recommended)
+/deploy-to-shopify
+
+# Option 2: Call the script directly (works with any agent)
+./.claude/skills/deploy-to-shopify/deploy-to-shopify.sh
+```
+Deploys local code to Shopify live theme. Always syncs from Shopify first to prevent overwriting admin changes. Use after committing and pushing code to git.
+
+**Session Close:**
+```bash
+# Option 1: Use Claude Code skill (recommended)
+/session-close
+
+# Option 2: Call the script directly (works with any agent)
+./.claude/skills/session-close/session-close.sh
+```
+Complete the session close protocol: stage changes, sync beads, commit, push to remote, and optionally deploy to Shopify.
 
 **Theme Check (Linting):**
 ```bash
