@@ -46,7 +46,9 @@ git pull --rebase
 # Pull from Shopify admin (gets any admin-made changes)
 /sync-from-shopify
 # OR manually:
-# shopify theme pull --only config/settings_data.json --only templates/*.json
+# git status  # Check for uncommitted changes first
+# git add <files> && git commit -m "..."  # Commit local changes if any
+# shopify theme pull --live --only config/settings_data.json --only templates/*.json
 # git add config/settings_data.json templates/*.json
 # git commit -m "Sync configuration updates from Shopify admin"
 ```
@@ -98,25 +100,31 @@ git commit -m "Sync configuration updates from Shopify admin"
 /sync-from-shopify
 ```
 This will:
-1. Pull config/template changes from Shopify
-2. Show you what changed
-3. Commit to git
-4. Push to GitHub
+1. Commit any local changes first
+2. Pull config/template changes from Shopify
+3. Show you what changed
+4. Commit Shopify changes to git
+5. Push to GitHub
 
 **Option B: Manual sync**
 ```bash
-# 1. Pull changes from Shopify
-shopify theme pull --only config/settings_data.json --only templates/*.json
+# 1. Commit local changes first (if any)
+git status
+git add <files>
+git commit -m "Descriptive message"
 
-# 2. Review what changed
+# 2. Pull changes from Shopify
+shopify theme pull --live --only config/settings_data.json --only templates/*.json
+
+# 3. Review what changed
 git status
 git diff
 
-# 3. Stage and commit
+# 4. Stage and commit Shopify changes
 git add config/settings_data.json templates/*.json
 git commit -m "Sync configuration updates from Shopify admin"
 
-# 4. Push to GitHub (then deploy to live)
+# 5. Push to GitHub (then deploy to live)
 git push
 ```
 
