@@ -43,14 +43,22 @@ Per `shopify theme list`:
 # Pull from GitHub (gets other collaborators' changes)
 git pull --rebase
 
+# Snapshot local changes before any Shopify pull (prevents overwrites)
+git status -sb
+git add -A
+git commit -m "WIP: snapshot before Shopify pull" || true
+git stash -u -m "WIP: untracked before Shopify pull"
+
 # Pull from Shopify admin (gets any admin-made changes)
 /sync-from-shopify
 # OR manually:
 # git status  # Check for uncommitted changes first
-# git add <files> && git commit -m "..."  # Commit local changes if any
+# git add -A && git commit -m "WIP: snapshot before Shopify pull" || true
+# git stash -u -m "WIP: untracked before Shopify pull"
 # shopify theme pull --live --only config/settings_data.json --only templates/*.json
 # git add config/settings_data.json templates/*.json
 # git commit -m "Sync configuration updates from Shopify admin"
+# git stash pop  # Re-apply untracked changes if needed
 ```
 
 **2. Start local development server**
@@ -100,7 +108,7 @@ git commit -m "Sync configuration updates from Shopify admin"
 /sync-from-shopify
 ```
 This will:
-1. Commit any local changes first
+1. Commit tracked changes and stash untracked files
 2. Pull config/template changes from Shopify
 3. Show you what changed
 4. Commit Shopify changes to git
@@ -108,10 +116,11 @@ This will:
 
 **Option B: Manual sync**
 ```bash
-# 1. Commit local changes first (if any)
-git status
-git add <files>
-git commit -m "Descriptive message"
+# 1. Snapshot local changes first (if any)
+git status -sb
+git add -A
+git commit -m "WIP: snapshot before Shopify pull" || true
+git stash -u -m "WIP: untracked before Shopify pull"
 
 # 2. Pull changes from Shopify
 shopify theme pull --live --only config/settings_data.json --only templates/*.json
@@ -123,6 +132,9 @@ git diff
 # 4. Stage and commit Shopify changes
 git add config/settings_data.json templates/*.json
 git commit -m "Sync configuration updates from Shopify admin"
+
+# 4b. Re-apply untracked changes if needed
+git stash pop
 
 # 5. Push to GitHub (then deploy to live)
 git push

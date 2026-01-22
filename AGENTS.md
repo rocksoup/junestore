@@ -44,4 +44,5 @@ bd sync               # Sync with git
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
 - ALWAYS pull Shopify admin changes before any push (`/sync-from-shopify` or `shopify theme pull ...`) to avoid overwriting admin edits
+- ALWAYS snapshot local changes before any Shopify pull (commit tracked changes, stash untracked)
 - ALWAYS deploy to Live after pushing to GitHub (no confirmation needed)
