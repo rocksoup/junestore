@@ -156,6 +156,13 @@ h3, .h3 { font-size: var(--june-text-3xl); }
 }
 
 /* Product Cards - Custom Shape, Native Colors */
+.product-grid {
+  --grid-mobile-horizontal-spacing: 1.6rem;
+  --grid-mobile-vertical-spacing: 2rem;
+  --grid-desktop-horizontal-spacing: clamp(2rem, 2.6vw, 3.2rem);
+  --grid-desktop-vertical-spacing: clamp(2.4rem, 3vw, 3.6rem);
+}
+
 .card {
   border-radius: var(--june-radius-lg);
   transition: all var(--june-transition-base);
@@ -166,6 +173,145 @@ h3, .h3 { font-size: var(--june-text-3xl); }
   /* Subtle lift effect */
   transform: translateY(-4px);
   box-shadow: var(--june-shadow-lg);
+}
+
+.product-card-wrapper {
+  --june-card-radius: clamp(0.9rem, 1.4vw, 1.4rem);
+  --june-card-border: rgba(var(--color-foreground), 0.12);
+  --june-card-border-hover: rgba(var(--color-foreground), 0.32);
+  --june-card-shadow: 0 12px 28px -24px rgba(var(--color-foreground), 0.45);
+  --june-card-shadow-hover: 0 18px 36px -24px rgba(var(--color-foreground), 0.6);
+}
+
+.product-card-wrapper .card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--june-card-radius);
+  transition: transform var(--june-transition-base), box-shadow var(--june-transition-base),
+    border-color var(--june-transition-base);
+  box-shadow: var(--june-card-shadow);
+  /* Background is handled by .card class using scheme settings */
+}
+
+.product-card-wrapper .card--card {
+  border-color: var(--june-card-border);
+}
+
+.product-card-wrapper .card--card:after,
+.product-card-wrapper .card--standard .card__inner:after {
+  box-shadow: none;
+}
+
+.product-card-wrapper:hover .card,
+.product-card-wrapper:focus-within .card {
+  transform: translateY(-6px);
+  box-shadow: var(--june-card-shadow-hover);
+  border-color: var(--june-card-border-hover);
+}
+
+.product-card-wrapper .card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(var(--color-background), 0) 40%, rgba(var(--color-background), 0.6) 100%),
+    radial-gradient(120% 120% at 70% 10%, rgba(var(--color-foreground), 0.12), transparent 55%);
+  opacity: 0;
+  transition: opacity var(--june-transition-base);
+  pointer-events: none;
+}
+
+.product-card-wrapper:hover .card__media::after,
+.product-card-wrapper:focus-within .card__media::after {
+  opacity: 1;
+}
+
+.product-card-wrapper .card__media .media img {
+  transition: transform 600ms ease, filter 600ms ease;
+}
+
+.product-card-wrapper:hover .card__media .media img,
+.product-card-wrapper:focus-within .card__media .media img {
+  transform: scale(1.04);
+  filter: saturate(1.02);
+}
+
+.product-card-wrapper .card > .card__content {
+  padding: 1rem 1.2rem 0.9rem;
+}
+
+.product-card-wrapper .card > .card__content .card__information {
+  padding: 1rem 0.2rem 0.5rem;
+}
+
+.product-card-wrapper .card__heading {
+  font-size: clamp(1.2rem, 1.5vw, 1.65rem);
+  letter-spacing: 0.02em;
+  min-height: 2.4em;
+}
+
+.product-card-wrapper .card__heading a {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-card-wrapper .card-information {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.8rem;
+  min-height: 2.2rem;
+}
+
+.product-card-wrapper .card-information .price {
+  font-size: clamp(1rem, 1.2vw, 1.3rem);
+  letter-spacing: 0.04rem;
+  margin: 0;
+}
+
+.product-card-wrapper .card-information .price-item--regular {
+  color: rgba(var(--color-foreground), 0.6);
+}
+
+.product-card-wrapper .card-information .price-item--sale {
+  font-weight: 600;
+}
+
+.product-card-wrapper .card-information > * + * {
+  margin-top: 0.4rem;
+}
+
+.product-card-wrapper .quick-add {
+  margin: 0 1.2rem 1.2rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--june-transition-base), transform var(--june-transition-base);
+}
+
+.product-card-wrapper:hover .quick-add,
+.product-card-wrapper:focus-within .quick-add {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-card-wrapper .quick-add__submit {
+  border-radius: var(--june-radius-full);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.8rem 1rem;
+}
+
+@media screen and (max-width: 749px) {
+  .product-card-wrapper .card {
+    transform: none;
+  }
+
+  .product-card-wrapper .quick-add {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .card__heading {
