@@ -292,6 +292,9 @@ YOU MUST follow this debugging framework for ANY technical issue:
 
 ## 🚀 Essential Commands
 
+**Project Skills (Codex):**
+Project-specific Codex skills live in `skills/`. The Shopify sync skill is at `skills/sync-from-shopify/SKILL.md`.
+
 **Development:**
 ```bash
 shopify theme dev --store june-lingerie-2.myshopify.com --store-password june

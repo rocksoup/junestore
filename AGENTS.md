@@ -14,6 +14,10 @@ bd close <id>         # Complete work
 bd sync               # Sync with git
 ```
 
+## Project Skills
+
+Project-specific Codex skills live in `skills/`. For Shopify admin sync, use `skills/sync-from-shopify/SKILL.md`.
+
 ## Landing the Plane (Session Completion)
 
 **When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
