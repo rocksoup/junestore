@@ -40,7 +40,7 @@ Before committing ANY visual change:
 ## Store Information
 
 *   **Source URL (Admin/API):** `https://june-lingerie-2.myshopify.com/`
-*   **Public URL:** `https://junelingerie.com`
+*   **Public URL (Production):** `https://june-lingerie-2.myshopify.com/` (will be `https://junelingerie.com` after launch)
 *   **Production Theme ID:** `139703812209` (June Lingerie - Dawn)
 
 ## Quick Start - Development Server

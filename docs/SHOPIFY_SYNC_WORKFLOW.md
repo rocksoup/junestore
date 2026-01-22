@@ -156,7 +156,7 @@ git push
 shopify theme push --live --allow-live
 
 # 7. Verify deployment
-# Visit https://junelingerie.com to confirm changes are live
+# Visit https://june-lingerie-2.myshopify.com to confirm changes are live
 ```
 ### Optional: Tag-Based Release Flow
 
@@ -263,7 +263,7 @@ shopify theme push --live --allow-live
 git status            # Must show "Your branch is up to date with 'origin/main'"
 
 # 7. Verify deployment
-# Visit https://junelingerie.com to confirm changes are live
+# Visit https://june-lingerie-2.myshopify.com to confirm changes are live
 ```
 
 **CRITICAL:** Work is NOT complete until `git push` succeeds AND changes are verified on live site.

@@ -395,7 +395,7 @@ claude mcp remove shopify-dev-mcp
 - **Author:** Jared Stoneberg
 - **Description:** Custom Shopify theme for June Lingerie, built on Dawn theme foundation
 - **Site URL (Staging):** https://june-lingerie-2.myshopify.com
-- **Site URL (Production):** https://junelingerie.com
+- **Site URL (Production):** https://june-lingerie-2.myshopify.com (will be https://junelingerie.com after launch)
 - **GitHub:** https://github.com/rocksoup/junestore
 
 **Key Directories:**
