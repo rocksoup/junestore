@@ -143,7 +143,7 @@ git push
 
 **IMPORTANT:** Always pull from Shopify before starting local work to avoid conflicts.
 
-**Note on Script Abstraction:** The core sync logic lives in `scripts/shopify-sync.sh` to make it reusable across different agents and tools. The Claude Code skill (`.claude/skills/sync-from-shopify/SKILL.md`) is a thin wrapper that calls this script.
+**Note on Script Abstraction:** The core sync logic lives in `scripts/shopify-sync.sh` to make it reusable across different agents and tools. The Claude and Codex skills (`.claude/skills/sync-from-shopify/SKILL.md` and `skills/sync-from-shopify/SKILL.md`) are thin wrappers that call this script.
 
 ## Deployment Workflow
 
@@ -608,9 +608,9 @@ If this happened, it means:
 - Avoid editing in Shopify admin while a deployment is in progress
 - Run `/sync-from-shopify` more frequently during active admin editing sessions
 
-## Multi-Agent Compatibility (TODO)
+## Multi-Agent Compatibility
 
-**Current State:** The workflow skills (`/sync-from-shopify`, `/deploy-to-shopify`, `/session-close`) work with Claude Code only.
+**Current State:** The workflow skills (`/sync-from-shopify`, `/deploy-to-shopify`, `/session-close`) work in both Claude Code and Codex. All skills call shared scripts in `scripts/`.
 
 **Future Requirement:** These skills need to be adapted for Codex to ensure all AI agents can use the safe Shopify workflow regardless of platform.
 
@@ -618,19 +618,18 @@ If this happened, it means:
 ```
 Core Implementation (Agent-Agnostic)
 ├── scripts/shopify-sync.sh              ← Shared sync logic
-├── .claude/skills/deploy-to-shopify/deploy-to-shopify.sh  ← Shared deploy logic
-└── .claude/skills/session-close/session-close.sh          ← Shared session close logic
+├── scripts/deploy-to-shopify.sh          ← Shared deploy logic
+└── scripts/session-close.sh              ← Shared session close logic
 
 Skill Wrappers (Platform-Specific)
-├── .claude/skills/                      ← Claude Code skills (current)
-└── skills/                              ← Codex skills (TODO)
+├── .claude/skills/                      ← Claude Code skills
+└── skills/                              ← Codex skills
 ```
 
-**What needs to be done:**
-1. Create Codex-compatible versions in `skills/` directory
-2. Test that both Claude Code and Codex agents can execute the workflows
-3. Ensure core bash scripts remain the shared implementation
-4. Document platform differences (if any)
+**Maintenance:**
+1. Keep shared scripts in `scripts/` as the single source of truth
+2. Keep Claude and Codex skill wrappers in sync with script changes
+3. Document platform differences (if any)
 
 **Why this matters:**
 Multiple AI agents from different companies will work on this project. The deployment safeguards must be enforced for ALL agents, regardless of whether they're using Claude Code, Codex, or other platforms. This prevents accidental data loss when different agents deploy to Shopify.
@@ -640,7 +639,12 @@ Multiple AI agents from different companies will work on this project. The deplo
 - **CLAUDE.md** - Development guidelines and project context
 - **AGENTS.md** - Issue tracking and session close protocol
 - **scripts/shopify-sync.sh** - Core sync script (agent-agnostic)
-- **.claude/skills/sync-from-shopify/SKILL.md** - Sync from Shopify admin skill
-- **.claude/skills/deploy-to-shopify/SKILL.md** - Deploy to live theme skill (with safety checks)
-- **.claude/skills/session-close/SKILL.md** - Session close protocol automation
+- **scripts/deploy-to-shopify.sh** - Core deploy script (agent-agnostic)
+- **scripts/session-close.sh** - Core session close script (agent-agnostic)
+- **.claude/skills/sync-from-shopify/SKILL.md** - Claude sync-from-shopify skill
+- **.claude/skills/deploy-to-shopify/SKILL.md** - Claude deploy-to-shopify skill
+- **.claude/skills/session-close/SKILL.md** - Claude session-close skill
+- **skills/sync-from-shopify/SKILL.md** - Codex sync-from-shopify skill
+- **skills/deploy-to-shopify/SKILL.md** - Codex deploy-to-shopify skill
+- **skills/session-close/SKILL.md** - Codex session-close skill
 - **README.md** - Quick start and project overview

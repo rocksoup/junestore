@@ -7,6 +7,12 @@ description: Deploy local code to Shopify live theme with safety checks. Always 
 
 Deploy local code to Shopify live theme with built-in safety checks that prevent overwriting admin changes.
 
+## Codex Notes
+
+- Run from the repo root.
+- Surface script output in your response (admin changes, diff summary, deploy status).
+- If the script fails, stop and report the error without retrying.
+
 ## Usage
 
 Execute the deployment script:
@@ -94,11 +100,3 @@ After successful deployment, report:
 - The pre-deployment sync from Shopify is the critical safeguard
 - By syncing immediately before deploying, we minimize the timing window for data loss
 - If you're unsure whether to deploy, ask Jared first
-
-## Codex Compatibility
-
-**Current State:** Codex-compatible skill lives in `skills/deploy-to-shopify/SKILL.md`.
-
-**Shared Implementation:** Both Claude Code and Codex skills call `scripts/deploy-to-shopify.sh`.
-
-**Why this matters:** Multiple AI agents from different companies may work on this codebase. The deployment safeguards must be accessible to all agents regardless of their platform.

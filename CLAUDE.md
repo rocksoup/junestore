@@ -299,7 +299,7 @@ Project-specific skills live in `.claude/skills/` (Claude Code). Available skill
 - `/deploy-to-shopify` - Deploy to live theme with safety checks
 - `/session-close` - Complete session close protocol
 
-**Note:** These skills currently work with Claude Code only. Codex-compatible versions need to be created in `skills/` directory to ensure all AI agents (regardless of platform) can use the safe Shopify workflow. See docs/SHOPIFY_SYNC_WORKFLOW.md for details.
+**Note:** Claude and Codex skills both call shared scripts in `scripts/` so the safe Shopify workflow is consistent across agents. See docs/SHOPIFY_SYNC_WORKFLOW.md for details.
 
 **Development:**
 ```bash
@@ -323,7 +323,7 @@ Pulls configuration and template changes from Shopify admin, commits to git, and
 /deploy-to-shopify
 
 # Option 2: Call the script directly (works with any agent)
-./.claude/skills/deploy-to-shopify/deploy-to-shopify.sh
+./scripts/deploy-to-shopify.sh
 ```
 Deploys local code to Shopify live theme. Always syncs from Shopify first to prevent overwriting admin changes. Use after committing and pushing code to git.
 
@@ -333,7 +333,7 @@ Deploys local code to Shopify live theme. Always syncs from Shopify first to pre
 /session-close
 
 # Option 2: Call the script directly (works with any agent)
-./.claude/skills/session-close/session-close.sh
+./scripts/session-close.sh
 ```
 Complete the session close protocol: stage changes, sync beads, commit, push to remote, and optionally deploy to Shopify.
 

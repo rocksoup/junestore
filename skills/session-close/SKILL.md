@@ -7,6 +7,12 @@ description: Complete the session close protocol. Runs git status, stages change
 
 Automates the session close checklist from CLAUDE.md to ensure work is properly saved and pushed.
 
+## Codex Notes
+
+- Run from the repo root.
+- Surface script output in your response (git status, commit, push, deploy choice).
+- If the script fails, stop and report the error without retrying.
+
 ## Usage
 
 Execute the session close script:
@@ -45,7 +51,7 @@ Run `/session-close` when:
 - You're ending a work session
 - You've completed a feature or bug fix
 - You're switching to a different task
-- Claude Code is about to compact the conversation
+- Codex is about to compact the conversation
 
 Do NOT use this skill if:
 - You have no changes to commit (just exit the session)
@@ -103,11 +109,3 @@ After successful session close, report:
 - Running this at the end of every session ensures no work is lost
 - The optional deployment step provides a convenient path to make changes live
 - If you're unsure whether to deploy, choose "no" and ask Jared
-
-## Codex Compatibility
-
-**Current State:** Codex-compatible skill lives in `skills/session-close/SKILL.md`.
-
-**Shared Implementation:** Both Claude Code and Codex skills call `scripts/session-close.sh`.
-
-**Why this matters:** Multiple AI agents from different companies may work on this codebase. The session close protocol must be accessible to all agents regardless of their platform.
