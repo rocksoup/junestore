@@ -300,15 +300,13 @@ Starts local dev server at http://127.0.0.1:9292 with hot reload
 
 **Sync from Shopify:**
 ```bash
-# Snapshot local changes before any Shopify pull
-git status -sb
-git add -A
-git commit -m "WIP: snapshot before Shopify pull" || true
-git stash -u -m "WIP: untracked before Shopify pull"
-
+# Option 1: Use Claude Code skill (recommended)
 /sync-from-shopify
+
+# Option 2: Call the script directly (works with any agent)
+./scripts/shopify-sync.sh
 ```
-Pulls configuration and template changes from Shopify admin, commits to git. Run at start of each session.
+Pulls configuration and template changes from Shopify admin, commits to git, and pushes to remote. Run at start of each session. The script checks for uncommitted changes first - commit your work before running.
 
 **Theme Check (Linting):**
 ```bash

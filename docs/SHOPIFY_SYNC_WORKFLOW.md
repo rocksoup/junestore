@@ -103,26 +103,28 @@ git commit -m "Sync configuration updates from Shopify admin"
 
 **If you or someone else makes changes in the Shopify theme editor:**
 
-**Option A: Use the skill (recommended)**
+**Option A: Use the skill (recommended for Claude Code)**
 ```bash
 /sync-from-shopify
 ```
-This will:
-1. Commit tracked changes and stash untracked files
+This skill calls the core sync script and will:
+1. Check for uncommitted local changes (exits if any found)
 2. Pull config/template changes from Shopify
-3. Show you what changed
-4. Commit Shopify changes to git
-5. Push to GitHub
+3. Show you what changed with diff summary
+4. Stage, commit, and push changes to GitHub
 
-**Option B: Manual sync**
+**Option B: Use the script directly (works with any agent or manually)**
 ```bash
-# 1. Snapshot local changes first (if any)
-git status -sb
-git add -A
-git commit -m "WIP: snapshot before Shopify pull" || true
-git stash -u -m "WIP: untracked before Shopify pull"
+./scripts/shopify-sync.sh
+```
+This is the core sync script that can be called by any agent (Claude Code, Codex, etc.) or manually from the command line. Same behavior as Option A.
 
-# 2. Pull changes from Shopify
+**Option C: Manual sync**
+```bash
+# 1. Check for uncommitted changes first
+git status
+
+# 2. If clean, pull changes from Shopify
 shopify theme pull --live --only config/settings_data.json --only templates/*.json
 
 # 3. Review what changed
@@ -131,16 +133,17 @@ git diff
 
 # 4. Stage and commit Shopify changes
 git add config/settings_data.json templates/*.json
-git commit -m "Sync configuration updates from Shopify admin"
+git commit -m "Sync configuration updates from Shopify admin
 
-# 4b. Re-apply untracked changes if needed
-git stash pop
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>"
 
-# 5. Push to GitHub (then deploy to live)
+# 5. Push to GitHub
 git push
 ```
 
 **IMPORTANT:** Always pull from Shopify before starting local work to avoid conflicts.
+
+**Note on Script Abstraction:** The core sync logic lives in `scripts/shopify-sync.sh` to make it reusable across different agents and tools. The Claude Code skill (`.claude/skills/sync-from-shopify/SKILL.md`) is a thin wrapper that calls this script.
 
 ## Deployment Workflow
 
@@ -493,5 +496,6 @@ Manual Live deployment is required after every `git push`. Do not rely on auto-d
 
 - **CLAUDE.md** - Development guidelines and project context
 - **AGENTS.md** - Issue tracking and session close protocol
-- **.claude/skills/sync-from-shopify/SKILL.md** - Sync from Shopify skill details
+- **scripts/shopify-sync.sh** - Core sync script (agent-agnostic, can be called from any context)
+- **.claude/skills/sync-from-shopify/SKILL.md** - Claude Code skill wrapper that calls the script
 - **README.md** - Quick start and project overview
