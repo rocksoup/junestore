@@ -300,6 +300,12 @@ Starts local dev server at http://127.0.0.1:9292 with hot reload
 
 **Sync from Shopify:**
 ```bash
+# Snapshot local changes before any Shopify pull
+git status -sb
+git add -A
+git commit -m "WIP: snapshot before Shopify pull" || true
+git stash -u -m "WIP: untracked before Shopify pull"
+
 /sync-from-shopify
 ```
 Pulls configuration and template changes from Shopify admin, commits to git. Run at start of each session.
