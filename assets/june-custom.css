@@ -162,10 +162,10 @@ textarea {
 
 /* Container sizing for the SVG */
 .header__heading-logo-wrapper.custom-logo {
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   flex-shrink: 0;
-  margin-top: 40px;
+  margin-top: 20px;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -206,8 +206,8 @@ textarea {
 
 /* Scrolled State (Sticky Header) */
 .scrolled-past-header .header__heading-logo-wrapper.custom-logo {
-  width: 160px;
-  height: 120px;
+  width: 100px;
+  height: 80px;
   margin-top: 0;
 }
 
@@ -217,23 +217,23 @@ textarea {
 }
 
 .scrolled-past-header .logo-wordmark {
-  transform: translateY(-100px) scale(3);
+  transform: translateY(-70px) scale(2.2);
 }
 
 /* Mobile adjustments if necessary */
 @media screen and (max-width: 768px) {
   .header__heading-logo-wrapper.custom-logo {
-    width: 100px;
-    height: 100px;
-    margin-top: 10px;
+    width: 80px;
+    height: 80px;
+    margin-top: 5px;
   }
   
   .scrolled-past-header .header__heading-logo-wrapper.custom-logo {
-    width: 80px;
-    height: 60px;
+    width: 70px;
+    height: 50px;
   }
   
   .scrolled-past-header .logo-wordmark {
-    transform: translateY(-60px) scale(2);
+    transform: translateY(-45px) scale(1.8);
   }
 }
