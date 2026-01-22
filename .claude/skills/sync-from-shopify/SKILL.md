@@ -5,67 +5,49 @@ description: Synchronize Shopify theme changes to git. Pull configuration and te
 
 # Sync from Shopify
 
-Pull theme changes from Shopify admin, commit them to git, and push to remote.
+Pull theme changes from Shopify admin, commit them to git, and push to remote using the core sync script.
 
-## Workflow
+## Usage
 
-YOU MUST execute these steps in order:
+Execute the Shopify sync script:
 
-1. **Commit local changes first (if any)**
-   ```bash
-   git status
-   ```
-   If there are uncommitted local changes, commit them before pulling from Shopify:
-   ```bash
-   git add <files>
-   git commit -m "Descriptive message"
-   ```
-   This ensures that Shopify pull won't overwrite uncommitted work and keeps history clean.
+```bash
+./scripts/shopify-sync.sh
+```
 
-2. **Pull changes from Shopify**
-   ```bash
-   shopify theme pull --live --only config/settings_data.json --only templates/*.json
-   ```
-   This pulls configuration and template changes made in the Shopify theme editor.
-
-3. **Check what changed**
-   ```bash
-   git status
-   git diff
-   ```
-   Review the changes to understand what was modified in the Shopify admin.
-
-4. **Stage the changes**
-   ```bash
-   git add config/settings_data.json templates/*.json
-   ```
-   Only stage the files that were pulled from Shopify.
-
-5. **Commit with descriptive message**
-   ```bash
-   git commit -m "Sync configuration updates from Shopify admin"
-   ```
-   Use a clear commit message indicating these are admin changes.
-
-6. **Push to remote**
-   ```bash
-   git push
-   ```
-   Push the synchronized changes to the remote git repository.
-
-7. **Confirm completion**
-   Report back to Jared:
-   - What files were changed
-   - A summary of the changes (from git diff)
-   - Confirmation that changes are pushed to remote
+The script will:
+1. Check for uncommitted local changes (exits if any found)
+2. Pull configuration and templates from Shopify admin
+3. Review changes and show diff summary
+4. Stage, commit, and push changes to remote
+5. Report completion status
 
 ## Error Handling
 
-- If there are no changes to pull, report this and skip the commit/push steps
-- If push fails, report the error and ask for guidance
+**If the script reports uncommitted changes:**
+- Commit your local work first:
+  ```bash
+  git add <files>
+  git commit -m "Descriptive message"
+  ```
+- Then retry: `./scripts/shopify-sync.sh`
+
+**If the script reports no changes:**
+- This means Shopify admin matches your local files - no action needed
+
+**If push fails:**
+- The script will exit with an error
+- Report the error to Jared and ask for guidance
+
+## Reporting to Jared
+
+After successful sync, report:
+- What files were changed (from script output)
+- A summary of the changes (from diff shown by script)
+- Confirmation that changes are pushed to remote
 
 ## Notes
 
-- This skill focuses on config and template changes (the most common admin edits)
-- If you need to pull ALL theme files, use `shopify theme pull` without the `--only` flags
-- Always verify changes before committing - don't blindly commit everything
+- The script focuses on config and template changes (the most common admin edits)
+- Core logic lives in `scripts/shopify-sync.sh` and can be used by any agent
+- For pulling ALL theme files, modify the script or use `shopify theme pull` directly
