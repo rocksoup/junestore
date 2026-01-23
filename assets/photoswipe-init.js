@@ -58,6 +58,32 @@ const buildVideoHtml = ({ src, mime, host, id, loop, title }) => {
   return '';
 };
 
+const registerZoomButtons = (lightbox) => {
+  lightbox.on('uiRegister', () => {
+    lightbox.pswp.ui.registerElement({
+      name: 'zoom-in-button',
+      order: 7,
+      isButton: true,
+      appendTo: 'bar',
+      html: '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M24 14h-6V8h-4v6H8v4h6v6h4v-6h6" fill="currentColor"/><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" fill="none"/></svg>',
+      onClick: (e, el, pswp) => {
+        pswp.zoomTo(pswp.currSlide.zoomLevels.secondary, { x: pswp.currSlide.bounds.center.x, y: pswp.currSlide.bounds.center.y });
+      },
+    });
+
+    lightbox.pswp.ui.registerElement({
+      name: 'zoom-out-button',
+      order: 8,
+      isButton: true,
+      appendTo: 'bar',
+      html: '<svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true" class="pswp__icn"><path d="M8 14h16v4H8" fill="currentColor"/><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="2" fill="none"/></svg>',
+      onClick: (e, el, pswp) => {
+        pswp.zoomTo(pswp.currSlide.zoomLevels.initial, { x: pswp.currSlide.bounds.center.x, y: pswp.currSlide.bounds.center.y });
+      },
+    });
+  });
+};
+
 const registerThumbStrip = (lightbox) => {
   lightbox.on('uiRegister', () => {
     lightbox.pswp.ui.registerElement({
@@ -123,6 +149,9 @@ galleries.forEach((gallery) => {
     children: 'a.pswp-item',
     pswpModule: () => import('./photoswipe.esm.js'),
     wheelToZoom: true,
+    clickToCloseNonZoomable: false,
+    tapAction: 'zoom',
+    doubleTapAction: 'zoom',
   });
 
   lightbox.addFilter('domItemData', (itemData, element, linkEl) => {
@@ -163,6 +192,7 @@ galleries.forEach((gallery) => {
     }
   });
 
+  registerZoomButtons(lightbox);
   registerThumbStrip(lightbox);
   lightbox.init();
 });
