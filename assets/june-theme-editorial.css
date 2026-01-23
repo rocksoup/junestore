@@ -1,0 +1,263 @@
+/*
+ * June Lingerie - Editorial Visual Demo
+ * Inspired by: Mimi Flamingo (https://www.mimiflamingo.com)
+ * Pages: Homepage, Product
+ *
+ * Style Essence: Modern editorial with serif headings, rounded shapes,
+ * and sophisticated blue accents. Clean, premium feel with generous whitespace.
+ */
+
+/* ============================================
+   GOOGLE FONTS IMPORT
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=Inter:wght@400;500;600&display=swap');
+
+/* ============================================
+   CSS VARIABLE OVERRIDES
+   ============================================ */
+
+:root {
+  /* ====================================
+     COLORS
+     ==================================== */
+  /* Blue accent inspired by Mimi Flamingo */
+  --color-button: 0, 56, 255; /* Vibrant blue */
+  --color-button-text: 255, 255, 255; /* White text on blue */
+  --color-link: 0, 56, 255; /* Blue links */
+
+  /* Cleaner foreground/background contrast */
+  --color-foreground: 0, 0, 0; /* Pure black text */
+  --color-background: 255, 255, 255; /* Pure white background */
+
+  /* ====================================
+     TYPOGRAPHY
+     ==================================== */
+  /* Serif headings for editorial feel */
+  --font-heading-family: 'Crimson Pro', 'Times New Roman', Georgia, serif;
+  --font-heading-weight: 600;
+
+  /* Clean sans-serif body */
+  --font-body-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 600;
+
+  /* Refined type scale */
+  --font-body-scale: 1.05;
+  --font-heading-scale: 1.15;
+
+  /* ====================================
+     SPACING & LAYOUT
+     ==================================== */
+  /* Generous spacing for editorial feel */
+  --spacing-sections-desktop: 7.2rem;
+  --spacing-sections-mobile: 4.8rem;
+  --grid-desktop-horizontal-spacing: 3.2rem;
+  --grid-desktop-vertical-spacing: 4rem;
+  --grid-mobile-horizontal-spacing: 1.6rem;
+  --grid-mobile-vertical-spacing: 2.4rem;
+
+  /* ====================================
+     BORDERS & SHAPES
+     ==================================== */
+  /* Rounded corners throughout */
+  --june-radius-sm: 0.5rem; /* 8px */
+  --june-radius-md: 0.75rem; /* 12px */
+  --june-radius-lg: 1.25rem; /* 20px */
+
+  /* Product cards */
+  --product-card-corner-radius: 1.2rem;
+  --card-corner-radius: 1.2rem;
+  --product-card-image-padding: 0rem; /* No padding, full bleed images */
+
+  /* Media elements */
+  --media-radius: 1.2rem;
+  --media-border-width: 0.1rem;
+  --media-border-opacity: 0.08;
+
+  /* Buttons */
+  --buttons-radius: 0.75rem;
+  --buttons-radius-outset: 0.75rem;
+  --buttons-border-width: 0.2rem;
+  --buttons-border-opacity: 1;
+
+  /* ====================================
+     SHADOWS
+     ==================================== */
+  /* Subtle shadows for depth */
+  --june-shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --june-shadow-md: 0 4px 8px -2px rgba(0, 0, 0, 0.08);
+  --june-shadow-lg: 0 12px 24px -6px rgba(0, 0, 0, 0.12);
+
+  --product-card-shadow-opacity: 0.06;
+  --product-card-shadow-blur-radius: 2.4rem;
+  --product-card-shadow-horizontal-offset: 0rem;
+  --product-card-shadow-vertical-offset: 0.8rem;
+
+  --media-shadow-opacity: 0.08;
+  --media-shadow-blur: 24;
+  --media-shadow-horizontal-offset: 0;
+  --media-shadow-vertical-offset: 8;
+}
+
+/* ============================================
+   COMPONENT OVERRIDES
+   ============================================ */
+
+/* Headings - Serif Editorial Style */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.banner__heading,
+.rich-text__heading,
+.section-heading,
+.card__heading {
+  font-family: 'Crimson Pro', 'Times New Roman', Georgia, serif !important;
+  font-weight: 600;
+  letter-spacing: -0.01em; /* Tighter tracking for serifs */
+  line-height: 1.2;
+}
+
+/* Body Text - Clean Sans-Serif */
+body,
+.button,
+.price,
+.card-information,
+input,
+select,
+textarea {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* Buttons - Rounded with Blue Accent */
+.button,
+.button--primary,
+.shopify-payment-button__button {
+  border-radius: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none; /* Sentence case */
+  padding: 1rem 2rem;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-width: 0.2rem;
+  box-shadow: var(--june-shadow-sm);
+}
+
+.button:hover,
+.button--primary:hover,
+.shopify-payment-button__button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--june-shadow-md);
+}
+
+.button--secondary {
+  background: rgba(var(--color-foreground), 0.04);
+  border-color: rgba(var(--color-foreground), 0.2);
+  color: rgb(var(--color-foreground));
+}
+
+.button--secondary:hover {
+  background: rgba(var(--color-foreground), 0.08);
+  border-color: rgba(var(--color-foreground), 0.3);
+}
+
+/* Product Cards - Soft Rounded Corners */
+.card {
+  border-radius: 1.2rem;
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.12);
+}
+
+.product-card-wrapper .card__media .media img {
+  transition: transform 600ms ease;
+}
+
+.product-card-wrapper:hover .card__media .media img {
+  transform: scale(1.03);
+}
+
+/* Badge - Rounded Pills */
+.badge {
+  border-radius: 9999px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+  padding: 0.35rem 0.85rem;
+}
+
+/* Inputs - Rounded */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select,
+textarea {
+  border-radius: 0.75rem !important;
+  border-width: 0.15rem;
+  padding: 0.85rem 1.2rem;
+  transition: all 200ms ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgb(var(--color-button));
+  box-shadow: 0 0 0 3px rgba(var(--color-button), 0.1);
+}
+
+/* Navigation - Clean Editorial */
+.header__menu-item {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Price Display - Refined */
+.price {
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.price__sale .price-item--regular {
+  opacity: 0.5;
+}
+
+/* Image Banners - Editorial Spacing */
+.banner {
+  border-radius: 1.2rem;
+  overflow: hidden;
+}
+
+.banner__content {
+  padding: 4rem 2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .banner__content {
+    padding: 6rem 4rem;
+  }
+}
+
+/* Collection Grid - Spacious */
+.collection .grid {
+  row-gap: 4rem;
+  column-gap: 3.2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .collection .grid {
+    row-gap: 2.4rem;
+    column-gap: 1.6rem;
+  }
+}
+
+/* Footer - Clean Separation */
+.footer {
+  border-top: 0.1rem solid rgba(var(--color-foreground), 0.08);
+  padding-top: 4rem;
+  margin-top: 6rem;
+}

@@ -1,0 +1,321 @@
+/*
+ * June Lingerie - Refined Visual Demo
+ * Inspired by: Royce Lingerie (https://www.royce-lingerie.co.uk)
+ * Pages: Homepage, Product
+ *
+ * Style Essence: Professional, minimal, utilitarian. Sharp edges, uppercase
+ * treatments, clean typography. Functional luxury with restrained elegance.
+ */
+
+/* ============================================
+   GOOGLE FONTS IMPORT
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Work+Sans:wght@400;500;600&display=swap');
+
+/* ============================================
+   CSS VARIABLE OVERRIDES
+   ============================================ */
+
+:root {
+  /* ====================================
+     COLORS
+     ==================================== */
+  /* Monochromatic palette for refined aesthetic */
+  --color-foreground: 0, 0, 0; /* Pure black */
+  --color-background: 255, 255, 255; /* Pure white */
+  --color-button: 0, 0, 0; /* Black buttons */
+  --color-button-text: 255, 255, 255; /* White text */
+  --color-link: 0, 0, 0; /* Black links */
+
+  /* Subtle secondary */
+  --color-secondary-button: 255, 255, 255;
+  --color-secondary-button-text: 0, 0, 0;
+
+  /* ====================================
+     TYPOGRAPHY
+     ==================================== */
+  /* Clean sans-serif throughout */
+  --font-heading-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --font-heading-weight: 600;
+
+  --font-body-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 600;
+
+  /* Compact type scale */
+  --font-body-scale: 1.0;
+  --font-heading-scale: 1.08;
+
+  /* ====================================
+     SPACING & LAYOUT
+     ==================================== */
+  /* Tighter, more compact spacing */
+  --spacing-sections-desktop: 5.6rem;
+  --spacing-sections-mobile: 3.6rem;
+  --grid-desktop-horizontal-spacing: 2.4rem;
+  --grid-desktop-vertical-spacing: 2.8rem;
+  --grid-mobile-horizontal-spacing: 1.2rem;
+  --grid-mobile-vertical-spacing: 1.6rem;
+
+  /* ====================================
+     BORDERS & SHAPES
+     ==================================== */
+  /* Sharp, minimal corners */
+  --june-radius-sm: 0.188rem; /* 3px - very subtle */
+  --june-radius-md: 0.188rem; /* 3px */
+  --june-radius-lg: 0.375rem; /* 6px */
+
+  /* Product cards */
+  --product-card-corner-radius: 0rem; /* Sharp corners */
+  --card-corner-radius: 0rem;
+  --product-card-image-padding: 0.5rem; /* Small padding */
+
+  /* Media elements */
+  --media-radius: 0rem;
+  --media-border-width: 0.1rem;
+  --media-border-opacity: 0.12;
+
+  /* Buttons */
+  --buttons-radius: 0.188rem;
+  --buttons-radius-outset: 0.188rem;
+  --buttons-border-width: 0.15rem;
+  --buttons-border-opacity: 1;
+
+  /* ====================================
+     SHADOWS
+     ==================================== */
+  /* Flat design - minimal shadows */
+  --june-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --june-shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  --june-shadow-lg: 0 4px 8px -2px rgba(0, 0, 0, 0.08);
+
+  --product-card-shadow-opacity: 0;
+  --product-card-shadow-blur-radius: 0rem;
+  --media-shadow-opacity: 0;
+}
+
+/* ============================================
+   COMPONENT OVERRIDES
+   ============================================ */
+
+/* Headings - Sans-Serif Uppercase */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.banner__heading,
+.rich-text__heading,
+.section-heading {
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+/* Body Text */
+body {
+  font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* Buttons - Sharp, Uppercase */
+.button,
+.button--primary,
+.shopify-payment-button__button {
+  border-radius: 0.188rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.813rem; /* 13px - compact */
+  padding: 0.9rem 1.8rem;
+  transition: all 200ms ease;
+  border-width: 0.15rem;
+  box-shadow: none;
+}
+
+.button:hover,
+.button--primary:hover,
+.shopify-payment-button__button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+}
+
+.button--secondary {
+  background: transparent;
+  border-color: rgb(var(--color-foreground));
+  color: rgb(var(--color-foreground));
+}
+
+.button--secondary:hover {
+  background: rgb(var(--color-foreground));
+  color: rgb(var(--color-background));
+}
+
+/* Product Cards - Sharp Edges, Minimal */
+.card {
+  border-radius: 0;
+  transition: all 300ms ease;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.12);
+  overflow: hidden;
+}
+
+.card:hover {
+  border-color: rgba(var(--color-foreground), 0.24);
+  box-shadow: 0 4px 12px -4px rgba(0, 0, 0, 0.1);
+}
+
+.card__heading {
+  font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif !important;
+  font-weight: 500; /* Lighter weight for card titles */
+  text-transform: none; /* Sentence case for products */
+  letter-spacing: 0.02em;
+  font-size: 0.938rem; /* 15px - compact */
+}
+
+.product-card-wrapper .card__media .media img {
+  transition: opacity 300ms ease;
+}
+
+.product-card-wrapper:hover .card__media .media img {
+  opacity: 0.92; /* Subtle fade instead of zoom */
+}
+
+/* Badge - Sharp Pills with Uppercase */
+.badge {
+  border-radius: 0.188rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.688rem; /* 11px - very compact */
+  padding: 0.3rem 0.7rem;
+  border: 0.1rem solid currentColor;
+}
+
+/* Inputs - Sharp Corners */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+select,
+textarea {
+  border-radius: 0.188rem !important;
+  border-width: 0.1rem;
+  border-color: rgba(var(--color-foreground), 0.2);
+  padding: 0.75rem 1rem;
+  transition: all 150ms ease;
+  font-size: 0.938rem;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgb(var(--color-foreground));
+  box-shadow: 0 0 0 2px rgba(var(--color-foreground), 0.08);
+}
+
+/* Navigation - Uppercase, Compact */
+.header__menu-item {
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.813rem;
+}
+
+.header__menu-item:hover {
+  border-bottom: 0.15rem solid rgb(var(--color-foreground));
+}
+
+/* Price Display - Clean, Compact */
+.price {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: 0.938rem;
+}
+
+.price__sale .price-item--regular {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+/* Image Banners - Sharp Edges */
+.banner {
+  border-radius: 0;
+  overflow: hidden;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.08);
+}
+
+.banner__content {
+  padding: 3rem 1.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .banner__content {
+    padding: 5rem 3rem;
+  }
+}
+
+.banner__heading {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 1rem;
+}
+
+/* Collection Grid - Compact */
+.collection .grid {
+  row-gap: 2.8rem;
+  column-gap: 2.4rem;
+}
+
+@media screen and (max-width: 749px) {
+  .collection .grid {
+    row-gap: 1.6rem;
+    column-gap: 1.2rem;
+  }
+}
+
+/* Footer - Sharp Separation */
+.footer {
+  border-top: 0.15rem solid rgb(var(--color-foreground));
+  padding-top: 3rem;
+  margin-top: 5rem;
+}
+
+.footer__content-top {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.813rem;
+  font-weight: 600;
+}
+
+/* Product Page - Minimal Refinement */
+.product__title {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  margin-bottom: 0.75rem;
+}
+
+.product__text {
+  font-size: 0.938rem;
+  line-height: 1.6;
+  color: rgba(var(--color-foreground), 0.8);
+}
+
+/* Quantity Selector - Sharp */
+.quantity__button {
+  border-radius: 0;
+  border: 0.1rem solid rgba(var(--color-foreground), 0.2);
+}
+
+/* Variant Picker - Compact Uppercase */
+.product-form__input label {
+  font-size: 0.813rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+/* Quick Add - Uppercase Treatment */
+.quick-add__submit {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  padding: 0.7rem 1.4rem;
+}

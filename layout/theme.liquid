@@ -407,5 +407,10 @@
     {%- if request.page_type == 'product' -%}
       <script type="module" src="{{ 'photoswipe-init.js' | asset_url }}"></script>
     {%- endif -%}
+
+    {%- comment -%} Theme switcher for visual demos {%- endcomment -%}
+    {%- if request.page_type == 'index' or request.page_type == 'product' -%}
+      <script src="{{ 'june-theme-switcher.js' | asset_url }}" defer="defer"></script>
+    {%- endif -%}
   </body>
 </html>
