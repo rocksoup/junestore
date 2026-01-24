@@ -1451,5 +1451,23 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Third Audience (AI)",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "ai_content_enabled",
+        "label": "Enable AI-friendly content",
+        "default": true,
+        "info": "Adds AI content discovery to robots.txt and page headers"
+      },
+      {
+        "type": "url",
+        "id": "ai_content_url",
+        "label": "AI content base URL",
+        "info": "GitHub Pages URL where AI content is hosted (e.g., https://username.github.io/junestore)"
+      }
+    ]
   }
 ]

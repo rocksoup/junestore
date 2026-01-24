@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="">
     <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.ai_content_enabled and settings.ai_content_url != blank -%}
+    <!-- Third Audience: AI-friendly content discovery -->
+    <link rel="alternate" type="text/plain" href="{{ settings.ai_content_url }}/llms.txt" title="LLMs.txt - AI Content Directory">
+    {%- endif -%}
 
     {%- if settings.favicon != blank -%}
       <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">

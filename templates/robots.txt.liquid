@@ -1,0 +1,69 @@
+{% comment %}
+  Custom robots.txt with Third Audience AI discovery
+  Extends Shopify's default robots.txt with AI-friendly content references
+{% endcomment %}
+{% comment %} Standard Shopify robots.txt rules {% endcomment %}
+User-agent: *
+Disallow: /admin
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkout
+Disallow: /*/checkouts/
+Disallow: /checkouts/
+Disallow: /carts/
+Disallow: /account
+Disallow: /collections/*+*
+Disallow: /collections/*%2B*
+Disallow: /collections/*%2b*
+Disallow: /*/collections/*+*
+Disallow: /*/collections/*%2B*
+Disallow: /*/collections/*%2b*
+Disallow: /blogs/*+*
+Disallow: /blogs/*%2B*
+Disallow: /blogs/*%2b*
+Disallow: /*/blogs/*+*
+Disallow: /*/blogs/*%2B*
+Disallow: /*/blogs/*%2b*
+Disallow: /*design_theme_id*
+Disallow: /*preview_theme_id*
+Disallow: /*preview_script_id*
+Disallow: /search
+Disallow: /apple-app-site-association
+Disallow: /.well-known
+
+{% comment %} Standard sitemap {% endcomment %}
+Sitemap: {{ shop.url }}/sitemap.xml
+{% if settings.ai_content_enabled and settings.ai_content_url != blank %}
+
+# Third Audience: AI-friendly content discovery
+# For AI agents seeking structured, machine-readable content
+# See: https://dri.es/the-third-audience
+
+# LLMs.txt - AI content directory (similar to robots.txt for LLMs)
+LLMs-Txt: {{ settings.ai_content_url }}/llms.txt
+
+# AI Content Sitemap - XML sitemap of markdown content
+Sitemap: {{ settings.ai_content_url }}/sitemap.xml
+
+# AI agents are welcome to crawl our AI content
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: Anthropic-AI
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: CCBot
+Allow: /
+{% endif %}
